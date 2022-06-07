@@ -4,15 +4,17 @@ import orquestra.sdk.v2.dsl as sdk
 
 
 THIS_IMPORT = sdk.GitImport(
-    repo_url="git@github.com:kottmanj/qe-madtequila.git",
-    git_ref="master",
+    repo_url="git@github.com:yannnbingz/madtequila-benchmark.git",
+    git_ref="main",
 )
 
+MADTEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:kottmanj/qe-madtequila.git", git_ref="master")
 TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
 PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
+
 @sdk.task(
     source_import=THIS_IMPORT, 
-    dependency_imports=[TEQUILA_IMPORT],
+    dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
 )
 def run_madness(geometry, n_pno, **kwargs):
@@ -35,7 +37,7 @@ def run_madness(geometry, n_pno, **kwargs):
                 atom["species"], atom["x"], atom["y"], atom["z"]
             )
 
-    mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno)
+    mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
     results_dict = {}
     results_dict["schema"] = SCHEMA_VERSION + "-madresults"
     results_dict["kwargs"] = kwargs
@@ -49,13 +51,13 @@ def run_madness(geometry, n_pno, **kwargs):
 
 @sdk.task(
     source_import=THIS_IMPORT, 
-    dependency_imports=[PYSCF_IMPORT],
+    dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT, PYSCF_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=1
 )
 def compute_pyscf_energy(madmolecule, method="fci", **kwargs):
     import qemadtequila as madtq
-    mol = madtq.mol_from_json(madmolecule)
+    mol = madtq.mol_from_json(madmolecule, **kwargs)
     energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
     result = {"SCHEMA":"schema",
             "info":"{} - {}/MRA-PNO({},{})".format(mol.parameters.name, method, mol.n_electrons, 2*mol.n_orbitals),
