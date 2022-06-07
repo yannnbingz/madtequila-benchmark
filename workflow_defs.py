@@ -1,6 +1,5 @@
 import json
 import orquestra.sdk.v2.dsl as sdk
-#from typing import Union, Dict
 
 
 THIS_IMPORT = sdk.GitImport(
@@ -9,12 +8,13 @@ THIS_IMPORT = sdk.GitImport(
 )
 
 MADTEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:kottmanj/qe-madtequila.git", git_ref="master")
-TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
-PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
+#TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
+#PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
 
 @sdk.task(
     source_import=THIS_IMPORT, 
-    dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT],
+    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT],
+    dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
 )
 def run_madness(geometry, n_pno, **kwargs):
@@ -37,33 +37,42 @@ def run_madness(geometry, n_pno, **kwargs):
                 atom["species"], atom["x"], atom["y"], atom["z"]
             )
 
+    print("***MOLECULE GEOMETRY OBTAINED***")
     mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
-    results_dict = {}
-    results_dict["schema"] = SCHEMA_VERSION + "-madresults"
-    results_dict["kwargs"] = kwargs
-    results_dict["geometry"] = geometry
-    results_dict["n_pno"] = n_pno
-    json_string = madtq.mol_to_json(mol)
-    results_dict["mol"]=json_string
-    with open("madmolecule.json", "w") as f:
-        f.write(json.dumps(results_dict, indent=2))
+    print("***MOL OBJECT DEFINED***")
 
+    #results_dict = {}
+    #results_dict["schema"] = SCHEMA_VERSION + "-madresults"
+    #results_dict["kwargs"] = kwargs
+    #results_dict["geometry"] = geometry
+    #results_dict["n_pno"] = n_pno
+    #json_string = madtq.mol_to_json(mol)
+    #results_dict["mol"]=json_string
+    #with open("madmolecule.json", "w") as f:
+    #    f.write(json.dumps(results_dict, indent=2))
+    return mol
+    
 
 @sdk.task(
     source_import=THIS_IMPORT, 
-    dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT, PYSCF_IMPORT],
+    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT, PYSCF_IMPORT],
+    dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=1
 )
-def compute_pyscf_energy(madmolecule, method="fci", **kwargs):
+def compute_pyscf_energy(mol, method="fci", **kwargs):
     import qemadtequila as madtq
-    mol = madtq.mol_from_json(madmolecule, **kwargs)
+    #mol = madtq.mol_from_json(madmolecule, **kwargs)
+    print("***CALLING PYSCF***")
+
     energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
     result = {"SCHEMA":"schema",
             "info":"{} - {}/MRA-PNO({},{})".format(mol.parameters.name, method, mol.n_electrons, 2*mol.n_orbitals),
             "energy":energy}
-    with open("energy.json", "w") as f:
-        f.write(json.dumps(result, indent=2))
+            
+    print("***PYSCF RESULT: ***\n", result)
+    #with open("energy.json", "w") as f:
+    #    f.write(json.dumps(result, indent=2))
     return energy
 
 
@@ -79,8 +88,10 @@ def benchmarking_h2():
                          ]
                 }
     n_pno = 4
-    run_madness(geometry, n_pno)
-    energy = compute_pyscf_energy('madmolecule.json', method="fci")
+    mol = run_madness(geometry, n_pno)
+    print("***run madness DONE***")
+    energy = compute_pyscf_energy(mol, method="fci")
+    print("***compute pyscf energy  DONE***")
     return energy
 
 if __name__ == "__main__":
