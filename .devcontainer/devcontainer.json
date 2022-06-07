@@ -1,0 +1,14 @@
+{
+  "name": "Orquestra Dev Project Container",
+  "image": "orquestra-studio",
+  "settings": {
+    "python.pythonPath": "/home/orquestra/.miniconda3/bin/python",
+    "python.languageServer": "Pylance",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "remote.autoForwardPorts": false
+  },
+  "extensions": ["ms-python.python", "/opt/orquestra-studio.vsix"],
+  "forwardPorts": [3000, 8265, 8000, 9000],
+  "overrideCommand": false
+}
