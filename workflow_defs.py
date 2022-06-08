@@ -59,7 +59,7 @@ def run_madness(geometry, n_pno, **kwargs):
     with open("madmolecule.json", "w") as f:
        f.write(json.dumps(results_dict, indent=2))
 
-    print("***ITEGRAL RESULT WRITTEN TO: madmolecule.json ***")
+    print("***INTEGRAL RESULT WRITTEN TO: madmolecule.json ***")
 
     return mol
     
@@ -86,7 +86,7 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
     with open("energy.json", "w") as f:
         f.write(json.dumps(result, indent=2))
 
-    print("***ENERGY RESULT WRITTEN TO: energy.json ***", result)
+    print("***ENERGY RESULT WRITTEN TO: energy.json ***")
     return energy
 
 @sdk.workflow
