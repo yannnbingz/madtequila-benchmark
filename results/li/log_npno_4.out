@@ -1,0 +1,156 @@
+task-invocation-id: invocation-0-task-compute-pyscf-energy-e19fa6b38a
+task-invocation-id: invocation-1-task-run-madness-0ce2a30583
+{"date":"2022-06-08T17:21:05.000173Z","log":"Will clone branch main."}
+{"date":"2022-06-08T17:21:05.007206Z","log":"Starting clone of Git repository located at git@github.com:zapatacomputing/orquestra-workflow.git into /tmp/qe/imports/__sdk_model."}
+{"date":"2022-06-08T17:21:05.008082Z","log":"Cloning into '/tmp/qe/imports/__sdk_model'..."}
+{"date":"2022-06-08T17:21:05.026789Z","log":"Warning: Permanently added the ECDSA host key for IP address '140.82.113.3' to the list of known hosts."}
+{"date":"2022-06-08T17:21:05.346803Z","log":"Successfully cloned repository for import __sdk_model."}
+{"date":"2022-06-08T17:21:05.382690Z","log":"Will clone branch main."}
+{"date":"2022-06-08T17:21:05.389542Z","log":"Starting clone of Git repository located at git@github.com:zapatacomputing/orquestra-sdk.git into /tmp/qe/imports/__sdk_main."}
+{"date":"2022-06-08T17:21:05.390377Z","log":"Cloning into '/tmp/qe/imports/__sdk_main'..."}
+{"date":"2022-06-08T17:21:05.747604Z","log":"Successfully cloned repository for import __sdk_main."}
+{"date":"2022-06-08T17:21:05.783612Z","log":"Will clone branch main."}
+{"date":"2022-06-08T17:21:05.790662Z","log":"Starting clone of Git repository located at git@github.com:yannnbingz/madtequila-benchmark.git into /tmp/qe/imports/git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark."}
+{"date":"2022-06-08T17:21:05.791600Z","log":"Cloning into '/tmp/qe/imports/git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark'..."}
+{"date":"2022-06-08T17:21:06.078487Z","log":"Successfully cloned repository for import git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark."}
+{"date":"2022-06-08T17:21:06.114284Z","log":"Will clone branch li-openshell."}
+{"date":"2022-06-08T17:21:06.121327Z","log":"Starting clone of Git repository located at git@github.com:yannnbingz/yz-openshell-madtequila.git into /tmp/qe/imports/git-31bb7a4c28_github_com_yannnbingz_yz_openshell_madtequila."}
+{"date":"2022-06-08T17:21:06.122207Z","log":"Cloning into '/tmp/qe/imports/git-31bb7a4c28_github_com_yannnbingz_yz_openshell_madtequila'..."}
+{"date":"2022-06-08T17:21:06.400954Z","log":"Successfully cloned repository for import git-31bb7a4c28_github_com_yannnbingz_yz_openshell_madtequila."}
+{"date":"2022-06-08T17:21:07.180451Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180454Z","log":"2022-06-08:17:21:07: Collected setup.py dependencies"}
+{"date":"2022-06-08T17:21:07.180490Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180541Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180571Z","log":"2022-06-08:17:21:07: Collected setup.py dependencies"}
+{"date":"2022-06-08T17:21:07.180605Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180700Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180736Z","log":"2022-06-08:17:21:07: No dependencies found..."}
+{"date":"2022-06-08T17:21:07.180767Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180820Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.180849Z","log":"2022-06-08:17:21:07: Collected setup.py dependencies"}
+{"date":"2022-06-08T17:21:07.180884Z","log":"2022-06-08:17:21:07: ----------"}
+{"date":"2022-06-08T17:21:07.531696Z","log":"Processing ./step/__sdk_model"}
+{"date":"2022-06-08T17:21:07.643331Z","log":"  Installing build dependencies: started"}
+{"date":"2022-06-08T17:21:11.134656Z","log":"  Installing build dependencies: finished with status 'done'"}
+{"date":"2022-06-08T17:21:11.139406Z","log":"  Getting requirements to build wheel: started"}
+{"date":"2022-06-08T17:21:11.342346Z","log":"  Getting requirements to build wheel: finished with status 'done'"}
+{"date":"2022-06-08T17:21:11.345857Z","log":"  Preparing metadata (pyproject.toml): started"}
+{"date":"2022-06-08T17:21:12.622401Z","log":"  Preparing metadata (pyproject.toml): finished with status 'done'"}
+{"date":"2022-06-08T17:21:12.631755Z","log":"Requirement already satisfied: pyyaml in /usr/local/lib/python3.8/dist-packages (from orquestra-workflow==0.16.0) (6.0)"}
+{"date":"2022-06-08T17:21:12.753085Z","log":"Collecting pydantic"}
+{"date":"2022-06-08T17:21:12.774711Z","log":"  Downloading pydantic-1.9.1-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.7 MB)"}
+{"date":"2022-06-08T17:21:12.881062Z","log":"     âââââââââââââââââââââââââââââââââââââââ 12.7/12.7 MB 114.9 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:12.923069Z","log":"Requirement already satisfied: typing-extensions>=3.7.4.3 in /usr/local/lib/python3.8/dist-packages (from pydantic->orquestra-workflow==0.16.0) (4.2.0)"}
+{"date":"2022-06-08T17:21:12.924537Z","log":"Building wheels for collected packages: orquestra-workflow"}
+{"date":"2022-06-08T17:21:12.925305Z","log":"  Building wheel for orquestra-workflow (pyproject.toml): started"}
+{"date":"2022-06-08T17:21:14.428579Z","log":"  Building wheel for orquestra-workflow (pyproject.toml): finished with status 'done'"}
+{"date":"2022-06-08T17:21:14.429291Z","log":"  Created wheel for orquestra-workflow: filename=orquestra_workflow-0.16.0-py3-none-any.whl size=9740 sha256=c314c0e214465356323b22b955707ea098aa7ef4fcc8f02282ec760b3354dfe2"}
+{"date":"2022-06-08T17:21:14.429456Z","log":"  Stored in directory: /tmp/pip-ephem-wheel-cache-b896tmip/wheels/61/d1/ac/05630616f01a98009731042b831b4137b779828b12362d3017"}
+{"date":"2022-06-08T17:21:14.431203Z","log":"Successfully built orquestra-workflow"}
+{"date":"2022-06-08T17:21:14.763656Z","log":"Installing collected packages: pydantic, orquestra-workflow"}
+{"date":"2022-06-08T17:21:15.074319Z","log":"Successfully installed orquestra-workflow-0.16.0 pydantic-1.9.1"}
+{"date":"2022-06-08T17:21:15.074525Z","log":"WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv"}
+{"date":"2022-06-08T17:21:15.504939Z","log":"Processing ./step/__sdk_main"}
+{"date":"2022-06-08T17:21:15.615132Z","log":"  Installing build dependencies: started"}
+{"date":"2022-06-08T17:21:19.028719Z","log":"  Installing build dependencies: finished with status 'done'"}
+{"date":"2022-06-08T17:21:19.033579Z","log":"  Getting requirements to build wheel: started"}
+{"date":"2022-06-08T17:21:20.344802Z","log":"  Getting requirements to build wheel: finished with status 'done'"}
+{"date":"2022-06-08T17:21:20.347906Z","log":"  Preparing metadata (pyproject.toml): started"}
+{"date":"2022-06-08T17:21:21.670769Z","log":"  Preparing metadata (pyproject.toml): finished with status 'done'"}
+{"date":"2022-06-08T17:21:21.684576Z","log":"Requirement already satisfied: requests in /usr/lib/python3/dist-packages (from orquestra-sdk==0.25.0) (2.22.0)"}
+{"date":"2022-06-08T17:21:21.684921Z","log":"Requirement already satisfied: orquestra-workflow in /usr/local/lib/python3.8/dist-packages (from orquestra-sdk==0.25.0) (0.16.0)"}
+{"date":"2022-06-08T17:21:21.721824Z","log":"Collecting memoization"}
+{"date":"2022-06-08T17:21:21.772585Z","log":"  Downloading memoization-0.4.0.tar.gz (41 kB)"}
+{"date":"2022-06-08T17:21:21.777810Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 41.2/41.2 kB 11.7 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:21.790413Z","log":"  Preparing metadata (setup.py): started"}
+{"date":"2022-06-08T17:21:22.861648Z","log":"  Preparing metadata (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:22.882794Z","log":"Collecting dill"}
+{"date":"2022-06-08T17:21:22.886594Z","log":"  Downloading dill-0.3.5.1-py2.py3-none-any.whl (95 kB)"}
+{"date":"2022-06-08T17:21:22.893282Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 95.8/95.8 kB 19.4 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:22.895916Z","log":"Requirement already satisfied: importlib-metadata~=4.0 in /usr/local/lib/python3.8/dist-packages (from orquestra-sdk==0.25.0) (4.11.4)"}
+{"date":"2022-06-08T17:21:22.996063Z","log":"Collecting wrapt"}
+{"date":"2022-06-08T17:21:22.999135Z","log":"  Downloading wrapt-1.14.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (81 kB)"}
+{"date":"2022-06-08T17:21:23.003650Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 81.0/81.0 kB 26.8 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:23.005064Z","log":"Requirement already satisfied: pydantic in /usr/local/lib/python3.8/dist-packages (from orquestra-sdk==0.25.0) (1.9.1)"}
+{"date":"2022-06-08T17:21:23.031839Z","log":"Collecting s3fs"}
+{"date":"2022-06-08T17:21:23.034860Z","log":"  Downloading s3fs-2022.5.0-py3-none-any.whl (27 kB)"}
+{"date":"2022-06-08T17:21:23.052088Z","log":"Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.8/dist-packages (from importlib-metadata~=4.0->orquestra-sdk==0.25.0) (3.8.0)"}
+{"date":"2022-06-08T17:21:23.062051Z","log":"Requirement already satisfied: pyyaml in /usr/local/lib/python3.8/dist-packages (from orquestra-workflow->orquestra-sdk==0.25.0) (6.0)"}
+{"date":"2022-06-08T17:21:23.067669Z","log":"Requirement already satisfied: typing-extensions>=3.7.4.3 in /usr/local/lib/python3.8/dist-packages (from pydantic->orquestra-sdk==0.25.0) (4.2.0)"}
+{"date":"2022-06-08T17:21:23.377484Z","log":"Collecting aiohttp<=4"}
+{"date":"2022-06-08T17:21:23.381260Z","log":"  Downloading aiohttp-3.8.1-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.3 MB)"}
+{"date":"2022-06-08T17:21:23.395564Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 1.3/1.3 MB 100.7 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:23.426245Z","log":"Collecting aiobotocore~=2.3.0"}
+{"date":"2022-06-08T17:21:23.429362Z","log":"  Downloading aiobotocore-2.3.3.tar.gz (65 kB)"}
+{"date":"2022-06-08T17:21:23.434162Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 65.7/65.7 kB 18.8 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:23.445196Z","log":"  Preparing metadata (setup.py): started"}
+{"date":"2022-06-08T17:21:24.588877Z","log":"  Preparing metadata (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:24.621628Z","log":"Collecting fsspec==2022.5.0"}
+{"date":"2022-06-08T17:21:24.624812Z","log":"  Downloading fsspec-2022.5.0-py3-none-any.whl (140 kB)"}
+{"date":"2022-06-08T17:21:24.630354Z","log":"     ââââââââââââââââââââââââââââââââââââââ 140.6/140.6 kB 41.0 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:25.135422Z","log":"Collecting botocore<1.24.22,>=1.24.21"}
+{"date":"2022-06-08T17:21:25.139938Z","log":"  Downloading botocore-1.24.21-py3-none-any.whl (8.6 MB)"}
+{"date":"2022-06-08T17:21:25.204186Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 8.6/8.6 MB 138.2 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:25.260337Z","log":"Collecting aioitertools>=0.5.1"}
+{"date":"2022-06-08T17:21:25.263377Z","log":"  Downloading aioitertools-0.10.0-py3-none-any.whl (23 kB)"}
+{"date":"2022-06-08T17:21:25.422472Z","log":"Collecting yarl<2.0,>=1.0"}
+{"date":"2022-06-08T17:21:25.426199Z","log":"  Downloading yarl-1.7.2-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (308 kB)"}
+{"date":"2022-06-08T17:21:25.432997Z","log":"     ââââââââââââââââââââââââââââââââââââââ 308.6/308.6 kB 63.1 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:25.450838Z","log":"Collecting async-timeout<5.0,>=4.0.0a3"}
+{"date":"2022-06-08T17:21:25.453916Z","log":"  Downloading async_timeout-4.0.2-py3-none-any.whl (5.8 kB)"}
+{"date":"2022-06-08T17:21:25.478388Z","log":"Collecting charset-normalizer<3.0,>=2.0"}
+{"date":"2022-06-08T17:21:25.481317Z","log":"  Downloading charset_normalizer-2.0.12-py3-none-any.whl (39 kB)"}
+{"date":"2022-06-08T17:21:25.485218Z","log":"Requirement already satisfied: attrs>=17.3.0 in /usr/local/lib/python3.8/dist-packages (from aiohttp<=4->s3fs->orquestra-sdk==0.25.0) (21.4.0)"}
+{"date":"2022-06-08T17:21:25.499455Z","log":"Collecting aiosignal>=1.1.2"}
+{"date":"2022-06-08T17:21:25.502510Z","log":"  Downloading aiosignal-1.2.0-py3-none-any.whl (8.2 kB)"}
+{"date":"2022-06-08T17:21:25.793192Z","log":"Collecting multidict<7.0,>=4.5"}
+{"date":"2022-06-08T17:21:25.796631Z","log":"  Downloading multidict-6.0.2-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (121 kB)"}
+{"date":"2022-06-08T17:21:25.802526Z","log":"     ââââââââââââââââââââââââââââââââââââââ 121.3/121.3 kB 29.0 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:25.859733Z","log":"Collecting frozenlist>=1.1.1"}
+{"date":"2022-06-08T17:21:25.862969Z","log":"  Downloading frozenlist-1.3.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (158 kB)"}
+{"date":"2022-06-08T17:21:25.868079Z","log":"     ââââââââââââââââââââââââââââââââââââââ 158.7/158.7 kB 48.1 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:25.921559Z","log":"Requirement already satisfied: python-dateutil<3.0.0,>=2.1 in /usr/local/lib/python3.8/dist-packages (from botocore<1.24.22,>=1.24.21->aiobotocore~=2.3.0->s3fs->orquestra-sdk==0.25.0) (2.8.2)"}
+{"date":"2022-06-08T17:21:25.922143Z","log":"Requirement already satisfied: urllib3<1.27,>=1.25.4 in /usr/lib/python3/dist-packages (from botocore<1.24.22,>=1.24.21->aiobotocore~=2.3.0->s3fs->orquestra-sdk==0.25.0) (1.25.8)"}
+{"date":"2022-06-08T17:21:25.938488Z","log":"Collecting jmespath<2.0.0,>=0.7.1"}
+{"date":"2022-06-08T17:21:25.942229Z","log":"  Downloading jmespath-1.0.0-py3-none-any.whl (23 kB)"}
+{"date":"2022-06-08T17:21:25.968699Z","log":"Requirement already satisfied: idna>=2.0 in /usr/lib/python3/dist-packages (from yarl<2.0,>=1.0->aiohttp<=4->s3fs->orquestra-sdk==0.25.0) (2.8)"}
+{"date":"2022-06-08T17:21:25.978388Z","log":"Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil<3.0.0,>=2.1->botocore<1.24.22,>=1.24.21->aiobotocore~=2.3.0->s3fs->orquestra-sdk==0.25.0) (1.14.0)"}
+{"date":"2022-06-08T17:21:25.986078Z","log":"Building wheels for collected packages: orquestra-sdk, memoization, aiobotocore"}
+{"date":"2022-06-08T17:21:25.986806Z","log":"  Building wheel for orquestra-sdk (pyproject.toml): started"}
+{"date":"2022-06-08T17:21:27.573546Z","log":"  Building wheel for orquestra-sdk (pyproject.toml): finished with status 'done'"}
+{"date":"2022-06-08T17:21:27.574474Z","log":"  Created wheel for orquestra-sdk: filename=orquestra_sdk-0.25.0-py3-none-any.whl size=47558 sha256=faa2bfed341526ba23cff730770cfe284cf2ec7b1e51d4d7e411a98b2bb45a41"}
+{"date":"2022-06-08T17:21:27.574645Z","log":"  Stored in directory: /tmp/pip-ephem-wheel-cache-3coflj4n/wheels/d5/7f/0e/257002b929ca0e77a9373616ed28498fb9dcc4fe2c2d09d242"}
+{"date":"2022-06-08T17:21:27.577066Z","log":"  Building wheel for memoization (setup.py): started"}
+{"date":"2022-06-08T17:21:28.958746Z","log":"  Building wheel for memoization (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:28.959373Z","log":"  Created wheel for memoization: filename=memoization-0.4.0-py3-none-any.whl size=50451 sha256=6b506f8a2a786da7303f6080c7d1974ede38f5366861d9204e8c9648f61a93d3"}
+{"date":"2022-06-08T17:21:28.959540Z","log":"  Stored in directory: /root/.cache/pip/wheels/9f/bc/ae/e76d5ea088be013f58051186f0f397398a98c5ca8342d35a4f"}
+{"date":"2022-06-08T17:21:28.962698Z","log":"  Building wheel for aiobotocore (setup.py): started"}
+{"date":"2022-06-08T17:21:30.461011Z","log":"  Building wheel for aiobotocore (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:30.461682Z","log":"  Created wheel for aiobotocore: filename=aiobotocore-2.3.3-py3-none-any.whl size=64624 sha256=966209617c287b4e2227ca2394c35fa0861fb3e3ed91cc121e91ea2ea783e235"}
+{"date":"2022-06-08T17:21:30.461848Z","log":"  Stored in directory: /root/.cache/pip/wheels/71/6e/0f/42f612c80c69b908c85aa37405b56c90ad1e59dc8e0e9415a0"}
+{"date":"2022-06-08T17:21:30.464472Z","log":"Successfully built orquestra-sdk memoization aiobotocore"}
+{"date":"2022-06-08T17:21:30.818024Z","log":"Installing collected packages: wrapt, multidict, memoization, jmespath, fsspec, frozenlist, dill, charset-normalizer, async-timeout, aioitertools, yarl, botocore, aiosignal, aiohttp, aiobotocore, s3fs, orquestra-sdk"}
+{"date":"2022-06-08T17:21:31.822607Z","log":"Successfully installed aiobotocore-2.3.3 aiohttp-3.8.1 aioitertools-0.10.0 aiosignal-1.2.0 async-timeout-4.0.2 botocore-1.24.21 charset-normalizer-2.0.12 dill-0.3.5.1 frozenlist-1.3.0 fsspec-2022.5.0 jmespath-1.0.0 memoization-0.4.0 multidict-6.0.2 orquestra-sdk-0.25.0 s3fs-2022.5.0 wrapt-1.14.1 yarl-1.7.2"}
+{"date":"2022-06-08T17:21:31.822821Z","log":"WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv"}
+{"date":"2022-06-08T17:21:32.318004Z","log":"Processing ./step/git-31bb7a4c28_github_com_yannnbingz_yz_openshell_madtequila"}
+{"date":"2022-06-08T17:21:32.318599Z","log":"  Preparing metadata (setup.py): started"}
+{"date":"2022-06-08T17:21:33.345296Z","log":"  Preparing metadata (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:33.424043Z","log":"Collecting pyscf"}
+{"date":"2022-06-08T17:21:33.442894Z","log":"  Downloading pyscf-2.0.1-cp38-cp38-manylinux1_x86_64.whl (37.5 MB)"}
+{"date":"2022-06-08T17:21:33.713786Z","log":"     ââââââââââââââââââââââââââââââââââââââââ 37.5/37.5 MB 60.5 MB/s eta 0:00:00"}
+{"date":"2022-06-08T17:21:33.838569Z","log":"Requirement already satisfied: h5py>=2.7 in /usr/local/lib/python3.8/dist-packages (from pyscf->qe-madtequila==1.0) (3.7.0)"}
+{"date":"2022-06-08T17:21:33.839383Z","log":"Requirement already satisfied: numpy!=1.16,!=1.17,>=1.13 in /usr/local/lib/python3.8/dist-packages (from pyscf->qe-madtequila==1.0) (1.22.4)"}
+{"date":"2022-06-08T17:21:33.839965Z","log":"Requirement already satisfied: scipy!=1.5.0,!=1.5.1 in /usr/local/lib/python3.8/dist-packages (from pyscf->qe-madtequila==1.0) (1.8.1)"}
+{"date":"2022-06-08T17:21:33.843829Z","log":"Building wheels for collected packages: qe-madtequila"}
+{"date":"2022-06-08T17:21:33.844255Z","log":"  Building wheel for qe-madtequila (setup.py): started"}
+{"date":"2022-06-08T17:21:35.172179Z","log":"  Building wheel for qe-madtequila (setup.py): finished with status 'done'"}
+{"date":"2022-06-08T17:21:35.172713Z","log":"  Created wheel for qe-madtequila: filename=qe_madtequila-1.0-py3-none-any.whl size=5225 sha256=087320a0f10a9ac5c0baad1067832dde26b636053b51ccdfd5b7fa25294a6023"}
+{"date":"2022-06-08T17:21:35.172876Z","log":"  Stored in directory: /root/.cache/pip/wheels/cc/dc/fe/b91cf28bdcf4c03ee9fee232365e27fb17861ad24c68aa35b5"}
+{"date":"2022-06-08T17:21:35.174556Z","log":"Successfully built qe-madtequila"}
+{"date":"2022-06-08T17:21:35.585668Z","log":"Installing collected packages: pyscf, qe-madtequila"}
+{"date":"2022-06-08T17:21:37.930569Z","log":"Successfully installed pyscf-2.0.1 qe-madtequila-1.0"}
+{"date":"2022-06-08T17:21:37.930763Z","log":"WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv"}
+{"date":"2022-06-08T17:21:38.861712Z","log":"2022-06-08:17:21:38: Creating converter from 7 to 5"}
+{"date":"2022-06-08T17:21:38.861744Z","log":"2022-06-08:17:21:38: Creating converter from 5 to 7"}
+{"date":"2022-06-08T17:21:38.861752Z","log":"2022-06-08:17:21:38: Creating converter from 7 to 5"}
+{"date":"2022-06-08T17:21:38.861788Z","log":"2022-06-08:17:21:38: Creating converter from 5 to 7"}

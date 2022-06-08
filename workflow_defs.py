@@ -7,7 +7,15 @@ THIS_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-MADTEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", git_ref="li-openshell")
+MADTEQUILA_IMPORT = sdk.GitImport(
+    repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", 
+    git_ref="main",
+)
+
+# MADTEQUILA_IMPORT = sdk.GitImport(
+#     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", 
+#     git_ref="li-openshell",
+# )
 #TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
 #PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
 
@@ -75,23 +83,23 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
         f.write(json.dumps(result, indent=2))
     return energy
 
-# @sdk.workflow
-# def benchmarking_h2():
-#     """Workflow that generates random samples and fits them using a linear
-#     regression."""
+@sdk.workflow
+def benchmarking_h2():
+    """Workflow that generates random samples and fits them using a linear
+    regression."""
 
-#     geometry = {"schema": "molecular_geometry",
-#                 "sites": [
-#                             {"species": "H","x": 0,"y": 0,"z": 0},
-#                             {"species": "H","x": 0,"y": 0,"z": 0.7},
-#                          ]
-#                 } 
-#     n_pno = 4
-#     mol = run_madness(geometry, n_pno)
-#     #print("***run madness DONE***")
-#     energy = compute_pyscf_energy(mol, method="ccsd(t)")
-#     #print("***compute pyscf energy  DONE***")
-#     return energy
+    geometry = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "H","x": 0,"y": 0,"z": 0},
+                            {"species": "H","x": 0,"y": 0,"z": 0.7},
+                         ]
+                } 
+    n_pno = 4
+    mol = run_madness(geometry, n_pno)
+    #print("***run madness DONE***")
+    energy = compute_pyscf_energy(mol, method="ccsd(t)")
+    #print("***compute pyscf energy  DONE***")
+    return energy
 
 # @sdk.workflow
 # def benchmarking_h4():
@@ -114,25 +122,25 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 #     #print("***compute pyscf energy  DONE***")
 #     return energy
 
-@sdk.workflow
-def benchmarking_li():
-    """Workflow that generates random samples and fits them using a linear
-    regression."""
+# @sdk.workflow
+# def benchmarking_li():
+#     """Workflow that generates random samples and fits them using a linear
+#     regression."""
 
-    geometry = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "Li","x": 0,"y": 0,"z": 0},
-                     ]
-                }            
+#     geometry = {"schema": "molecular_geometry",
+#             "sites": [
+#                         {"species": "Li","x": 0,"y": 0,"z": 0},
+#                      ]
+#                 }            
     
-    n_pno = 4
-    mol = run_madness(geometry, n_pno)
-    #print("***run madness DONE***")
-    energy = compute_pyscf_energy(mol, method="uccsd(t)")
-    #print("***compute pyscf energy  DONE***")
-    return energy
-    
+#     n_pno = 4
+#     mol = run_madness(geometry, n_pno)
+#     #print("***run madness DONE***")
+#     energy = compute_pyscf_energy(mol, method="uccsd(t)")
+#     #print("***compute pyscf energy  DONE***")
+#     return energy
+
 if __name__ == "__main__":
-    # benchmarking_h2()
+    benchmarking_h2()
     # benchmarking_h4()
-    benchmarking_li()
+    # benchmarking_li()
