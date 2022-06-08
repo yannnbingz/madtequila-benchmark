@@ -49,15 +49,18 @@ def run_madness(geometry, n_pno, **kwargs):
     mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
     print("***MOL OBJECT DEFINED***")
 
-    #results_dict = {}
-    #results_dict["schema"] = SCHEMA_VERSION + "-madresults"
-    #results_dict["kwargs"] = kwargs
-    #results_dict["geometry"] = geometry
-    #results_dict["n_pno"] = n_pno
-    #json_string = madtq.mol_to_json(mol)
-    #results_dict["mol"]=json_string
-    #with open("madmolecule.json", "w") as f:
-    #    f.write(json.dumps(results_dict, indent=2))
+    results_dict = {}
+    results_dict["schema"] = SCHEMA_VERSION + "-madresults"
+    results_dict["kwargs"] = kwargs
+    results_dict["geometry"] = geometry
+    results_dict["n_pno"] = n_pno
+    json_string = madtq.mol_to_json(mol)
+    results_dict["mol"]=json_string
+    with open("madmolecule.json", "w") as f:
+       f.write(json.dumps(results_dict, indent=2))
+
+    print("***ITEGRAL RESULT WRITTEN TO: madmolecule.json ***")
+
     return mol
     
 
@@ -79,8 +82,11 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
             "energy":energy}
             
     print("***PYSCF RESULT: ***\n", result)
-    # with open("energy.json", "w") as f:
-    #     f.write(json.dumps(result, indent=2))
+
+    with open("energy.json", "w") as f:
+        f.write(json.dumps(result, indent=2))
+
+    print("***ENERGY RESULT WRITTEN TO: energy.json ***", result)
     return energy
 
 @sdk.workflow
@@ -96,9 +102,9 @@ def benchmarking_h2():
                 } 
     n_pno = 4
     mol = run_madness(geometry, n_pno)
-    #print("***run madness DONE***")
+    print("***run madness DONE***")
     energy = compute_pyscf_energy(mol, method="ccsd(t)")
-    #print("***compute pyscf energy  DONE***")
+    print("***compute pyscf energy  DONE***")
     return energy
 
 # @sdk.workflow
