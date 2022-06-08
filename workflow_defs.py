@@ -71,8 +71,8 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
             "energy":energy}
             
     print("***PYSCF RESULT: ***\n", result)
-    #with open("energy.json", "w") as f:
-    #    f.write(json.dumps(result, indent=2))
+    with open("energy.json", "w") as f:
+        f.write(json.dumps(result, indent=2))
     return energy
 
 
@@ -84,14 +84,28 @@ def benchmarking_h2():
     geometry = {"schema": "molecular_geometry",
                 "sites": [
                             {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.7}
+                            {"species": "H","x": 0,"y": 0,"z": 0.7},
                          ]
                 }
-    n_pno = 4
+    # geometry = {"schema": "molecular_geometry",
+    #         "sites": [
+    #                     {"species": "Li","x": 0,"y": 0,"z": 0},
+    #                     ]
+    #             }            
+    # geometry = {"schema": "molecular_geometry",
+    #             "sites": [
+    #                         {"species": "H","x": 0,"y": 0,"z": 0},
+    #                         {"species": "H","x": 0,"y": 0,"z": 0.75},
+    #                         {"species": "H","x": 0.75,"y": 0,"z": 0.0},
+    #                         {"species": "H","x": 0.75,"y": 0,"z": 0.75},
+    #                      ]
+    #             }
+    
+    n_pno = 2
     mol = run_madness(geometry, n_pno)
-    print("***run madness DONE***")
-    energy = compute_pyscf_energy(mol, method="fci")
-    print("***compute pyscf energy  DONE***")
+    #print("***run madness DONE***")
+    energy = compute_pyscf_energy(mol, method="ccsd(t)")
+    #print("***compute pyscf energy  DONE***")
     return energy
 
 if __name__ == "__main__":
