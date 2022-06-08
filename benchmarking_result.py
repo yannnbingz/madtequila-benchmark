@@ -4,7 +4,7 @@ from orquestra.runtime._config import read_config
 # replace with URL of your remote cluster
 CLUSTER_URL = "https://pse-1.orquestra.io"
 # replace with workflow ID returned from submit command
-WORKFLOW_ID = "benchmarking-h2-k7nod-r000"
+WORKFLOW_ID = "benchmarking-h2-zxepp-r000"
 
 runtime = QERuntime.from_runtime_configuration(
     project_dir=".",

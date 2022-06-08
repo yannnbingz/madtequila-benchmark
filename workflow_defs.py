@@ -79,8 +79,8 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
             "energy":energy}
             
     print("***PYSCF RESULT: ***\n", result)
-    with open("energy.json", "w") as f:
-        f.write(json.dumps(result, indent=2))
+    # with open("energy.json", "w") as f:
+    #     f.write(json.dumps(result, indent=2))
     return energy
 
 @sdk.workflow
