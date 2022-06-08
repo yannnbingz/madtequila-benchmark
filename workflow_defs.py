@@ -102,9 +102,9 @@ def benchmarking_h2():
                 } 
     n_pno = 4
     mol = run_madness(geometry, n_pno)
-    print("***run madness DONE***")
+    # print("***run madness DONE***")
     energy = compute_pyscf_energy(mol, method="ccsd(t)")
-    print("***compute pyscf energy  DONE***")
+    # print("***compute pyscf energy  DONE***")
     return energy
 
 # @sdk.workflow
