@@ -1,4 +1,5 @@
 import json
+import geometries
 import orquestra.sdk.v2.dsl as sdk
 
 
@@ -16,12 +17,9 @@ MADTEQUILA_IMPORT = sdk.GitImport(
 #     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", 
 #     git_ref="li-openshell",
 # )
-#TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
-#PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
 
 @sdk.task(
     source_import=THIS_IMPORT, 
-    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT],
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
 )
@@ -45,9 +43,9 @@ def run_madness(geometry, n_pno, **kwargs):
                 atom["species"], atom["x"], atom["y"], atom["z"]
             )
 
-    print("***MOLECULE GEOMETRY OBTAINED***")
+    print("*** MOLECULE GEOMETRY OBTAINED ***")
     mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
-    print("***MOL OBJECT DEFINED***")
+    print("*** MOL OBJECT DEFINED, INTEGRALS GENERATED ***")
 
     results_dict = {}
     results_dict["schema"] = SCHEMA_VERSION + "-madresults"
@@ -56,97 +54,54 @@ def run_madness(geometry, n_pno, **kwargs):
     results_dict["n_pno"] = n_pno
     json_string = madtq.mol_to_json(mol)
     results_dict["mol"]=json_string
-    with open("madmolecule.json", "w") as f:
-       f.write(json.dumps(results_dict, indent=2))
 
-    print("***INTEGRAL RESULT WRITTEN TO: madmolecule.json ***")
-
-    return mol
+    return mol, results_dict
     
 
 @sdk.task(
     source_import=THIS_IMPORT, 
-    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT, PYSCF_IMPORT],
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     import qemadtequila as madtq
-    #mol = madtq.mol_from_json(madmolecule, **kwargs)
-    print("***CALLING PYSCF***")
 
+    print("***CALLING PYSCF***")
     energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
     result = {"SCHEMA":"schema",
             "info":"{} - {}/MRA-PNO({},{})".format(mol.parameters.name, method, mol.n_electrons, 2*mol.n_orbitals),
             "energy":energy}
-            
     print("***PYSCF RESULT: ***\n", result)
 
-    with open("energy.json", "w") as f:
-        f.write(json.dumps(result, indent=2))
-
-    print("***ENERGY RESULT WRITTEN TO: energy.json ***")
     return energy
 
 @sdk.workflow
-def benchmarking_h2():
+def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
 
-    geometry = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.7},
-                         ]
-                } 
+    geometry = geometries.geometry_def('h2')
     n_pno = 2
-    mol = run_madness(geometry, n_pno)
-    # print("***run madness DONE***")
-    energy = compute_pyscf_energy(mol, method="ccsd(t)")
-    # print("***compute pyscf energy  DONE***")
-    return (energy, )
-
-# @sdk.workflow
-# def benchmarking_h4():
-#     """Workflow that generates random samples and fits them using a linear
-#     regression."""
-           
-#     geometry = {"schema": "molecular_geometry",
-#                 "sites": [
-#                             {"species": "H","x": 0,"y": 0,"z": 0},
-#                             {"species": "H","x": 0,"y": 0,"z": 0.75},
-#                             {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-#                             {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-#                          ]
-#                 }
-    
-#     n_pno = 4
-#     mol = run_madness(geometry, n_pno)
-#     #print("***run madness DONE***")
-#     energy = compute_pyscf_energy(mol, method="ccsd(t)")
-#     #print("***compute pyscf energy  DONE***")
-#     return (energy,)
-
-# @sdk.workflow
-# def benchmarking_li():
-#     """Workflow that generates random samples and fits them using a linear
-#     regression."""
-
-#     geometry = {"schema": "molecular_geometry",
-#             "sites": [
-#                         {"species": "Li","x": 0,"y": 0,"z": 0},
-#                      ]
-#                 }            
-    
-#     n_pno = 4
-#     mol = run_madness(geometry, n_pno)
-#     #print("***run madness DONE***")
-#     energy = compute_pyscf_energy(mol, method="uccsd(t)")
-#     #print("***compute pyscf energy  DONE***")
-#     return (energy,)
+    pyscf_method = 'ccsd(t)'
+    mol, madmolecule = run_madness(geometry, n_pno)
+    energy = compute_pyscf_energy(mol, method=pyscf_method)
+    return (energy, madmolecule)
 
 if __name__ == "__main__":
-    benchmarking_h2()
-    # benchmarking_h4()
-    # benchmarking_li()
+    benchmarking_project()
+
+
+#TEQUILA_IMPORT = sdk.GitImport(repo_url="git@github.com:tequilahub/tequila.git", git_ref="master")
+#PYSCF_IMPORT = sdk.GitImport(repo_url="git@github.com:pyscf/pyscf.git", git_ref="master")
+
+    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT],
+    #dependency_imports=[MADTEQUILA_IMPORT, TEQUILA_IMPORT, PYSCF_IMPORT],
+
+    # with open("madmolecule.json", "w") as f:
+    #    f.write(json.dumps(results_dict, indent=2))
+    # print("***INTEGRAL RESULT WRITTEN TO: madmolecule.json ***")
+
+    # with open("energy.json", "w") as f:
+    #     f.write(json.dumps(result, indent=2))
+    # print("***ENERGY RESULT WRITTEN TO: energy.json ***")
