@@ -100,12 +100,12 @@ def benchmarking_h2():
                             {"species": "H","x": 0,"y": 0,"z": 0.7},
                          ]
                 } 
-    n_pno = 4
+    n_pno = 2
     mol = run_madness(geometry, n_pno)
     # print("***run madness DONE***")
     energy = compute_pyscf_energy(mol, method="ccsd(t)")
     # print("***compute pyscf energy  DONE***")
-    return energy
+    return (energy, )
 
 # @sdk.workflow
 # def benchmarking_h4():
@@ -126,7 +126,7 @@ def benchmarking_h2():
 #     #print("***run madness DONE***")
 #     energy = compute_pyscf_energy(mol, method="ccsd(t)")
 #     #print("***compute pyscf energy  DONE***")
-#     return energy
+#     return (energy,)
 
 # @sdk.workflow
 # def benchmarking_li():
@@ -144,7 +144,7 @@ def benchmarking_h2():
 #     #print("***run madness DONE***")
 #     energy = compute_pyscf_energy(mol, method="uccsd(t)")
 #     #print("***compute pyscf energy  DONE***")
-#     return energy
+#     return (energy,)
 
 if __name__ == "__main__":
     benchmarking_h2()
