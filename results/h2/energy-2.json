@@ -1,1 +1,9 @@
-0
+{
+  "SCHEMA": "schema",
+  "name": "h2",
+  "method": "ccsd(t)",
+  "n_electronss": 2,
+  "n_orbitals": 3,
+  "energy": -1.157544976919947,
+  "MRA-PNO": "(2,6)"
+}

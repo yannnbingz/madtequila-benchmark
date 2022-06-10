@@ -9,7 +9,7 @@ THIS_IMPORT = sdk.GitImport(
 
 MADTEQUILA_IMPORT = sdk.GitImport(
     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
-    git_ref="main",
+    git_ref="o2-triplet",
 )
 
 @sdk.task(
@@ -43,41 +43,41 @@ def run_madness(geometry, n_pno, **kwargs):
     print("*** MOL OBJECT DEFINED, INTEGRALS GENERATED ***")
 
     results_dict = {}
-    results_dict["schema"] = SCHEMA_VERSION + "-madresults"
-    results_dict["kwargs"] = kwargs
-    results_dict["geometry"] = geometry
-    results_dict["n_pno"] = n_pno
+    results_dict['schema'] = SCHEMA_VERSION + "-madresults"
+    results_dict['kwargs'] = kwargs
+    results_dict['geometry'] = geometry
+    results_dict['n_pno'] = n_pno
     json_string = madtq.mol_to_json(mol)
-    results_dict["mol"]=json_string
+    results_dict['mol']=json_string
 
     return mol, results_dict
 
 
-@sdk.task(
-    source_import=THIS_IMPORT,
-    dependency_imports=[MADTEQUILA_IMPORT],
-    custom_image="jgonthier/madtequila:latest",
-    n_outputs=1
-)
-def compute_pyscf_energy(mol, method="fci", **kwargs):
-    import qemadtequila as madtq
+# @sdk.task(
+#     source_import=THIS_IMPORT,
+#     dependency_imports=[MADTEQUILA_IMPORT],
+#     custom_image="jgonthier/madtequila:latest",
+#     n_outputs=1
+# )
+# def compute_pyscf_energy(mol, method="fci", **kwargs):
+#     import qemadtequila as madtq
 
-    print("***CALLING PYSCF***")
-    energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
-    results_dict = {}
-    results_dict["SCHEMA"] = "schema"
-    results_dict["name"] = mol.parameters.name
-    results_dict["method"] = method
-    results_dict["n_electronss"] = mol.n_electrons
-    results_dict["n_orbitals"] = mol.n_orbitals
-    results_dict["energy"] = energy
-    mra_pno = "({},{})".format(mol.n_electrons, ", ", 2*mol.n_orbitals)
-    print("*** MRA-PNO ***: \n")
-    print(mra_pno)
-    print("*** PYSCF ENERGY: ***\n")
-    print(energy)
+#     print("***CALLING PYSCF***")
+#     energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
+#     results_dict = {}
+#     results_dict['SCHEMA'] = "schema"
+#     results_dict['name'] = mol.parameters.name
+#     results_dict['method'] = method
+#     results_dict['n_electrons'] = mol.n_electrons
+#     results_dict['n_orbitals'] = mol.n_orbitals
+#     results_dict['energy'] = energy
+#     mra_pno = "({},{})".format(mol.n_electrons, ", ", 2*mol.n_orbitals)
+#     print("*** MRA-PNO ***: \n")
+#     print(mra_pno)
+#     print("*** PYSCF ENERGY: ***\n")
+#     print(energy)
 
-    return results_dict
+#     return results_dict
 
 @sdk.task(
         source_import=THIS_IMPORT,
@@ -85,9 +85,9 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 def geometry_def(geo_name):
 
     H2 = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "H","x": 0,"y": 0,"z": 0},
-                        {"species": "H","x": 0,"y": 0,"z": 0.7},
+                "sites": [
+                            {"species": "H","x": 0,"y": 0,"z": 0},
+                            {"species": "H","x": 0,"y": 0,"z": 0.7},
                         ]
         }
     H4 = {"schema": "molecular_geometry",
@@ -96,15 +96,21 @@ def geometry_def(geo_name):
                             {"species": "H","x": 0,"y": 0,"z": 0.75},
                             {"species": "H","x": 0.75,"y": 0,"z": 0.0},
                             {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                         ]
+                        ]
         }
     Li = {"schema": "molecular_geometry",
                 "sites": [
                             {"species": "Li","x": 0,"y": 0,"z": 0}
                         ]
         }
+    O2 = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "O","x": 0,"y": 0,"z": 0.602900000000},
+                            {"species": "O","x": 0,"y": 0,"z": -0.602900000000},
+                        ]
+        }
 
-    geo_dict = {"h2": H2, "h4": H4, "li": Li}
+    geo_dict = {'h2': H2, 'h4': H4, 'li': Li, 'o2': O2}
     return geo_dict[geo_name]
 
 @sdk.workflow
@@ -112,18 +118,19 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h2'
+    mol_name = 'o2'
     n_pno = 2
-    pyscf_method = 'ccsd(t)'
+    pyscf_method = 'hf'
     geometry = geometry_def(mol_name)
 
     # compute mra-pno 1 and 2 body integrals from madness
-    mol, madmolecule = run_madness(geometry, n_pno)
+    mol, madmolecule = run_madness(geometry, n_pno, frozen_core=False)
 
-    # compute energy from pyscf
-    result = compute_pyscf_energy(mol, method=pyscf_method)
+    # # compute energy from pyscf
+    # result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    return (madmolecule, result)
+    # return (madmolecule, result)
+    return (madmolecule, )
 
 if __name__ == "__main__":
     benchmarking_project()
