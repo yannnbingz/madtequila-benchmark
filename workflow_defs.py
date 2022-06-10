@@ -16,6 +16,7 @@ MADTEQUILA_IMPORT = sdk.GitImport(
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
+    n_outputs=2
 )
 def run_madness(geometry, n_pno, **kwargs):
     import qemadtequila as madtq
@@ -56,6 +57,7 @@ def run_madness(geometry, n_pno, **kwargs):
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
+    n_outputs=2
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     import qemadtequila as madtq
@@ -64,13 +66,18 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
     energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
     results_dict = {}
     results_dict["SCHEMA"] = "schema"
-    results_dict["info"] = "{} - {}/MRA-PNO({},{})".format(mol.parameters.name, method, mol.n_electrons, 2*mol.n_orbitals)
+    results_dict["name"] = mol.parameters.name
+    results_dict["method"] = method
+    results_dict["n_electronss"] = mol.n_electrons
+    results_dict["n_orbitals"] = mol.n_orbitals
     results_dict["energy"] = energy
-    print("*** PYSCF RESULT: ***\n")
-    print("*** MRA-PNO: (", mol.n_electrons, ", ", 2*mol.n_orbitals, ") ***")
-    print("*** energy: ", energy, " ***")
+    mra_pno = "({},{})".format(mol.n_electrons, ", ", 2*mol.n_orbitals)
+    print("*** MRA-PNO ***: \n")
+    print(mra_pno)
+    print("*** PYSCF ENERGY: ***\n")
+    print(energy)
 
-    return results_dict
+    return energy, results_dict
 
 @sdk.task(
         source_import=THIS_IMPORT,
@@ -114,8 +121,7 @@ def benchmarking_project():
     mol, madmolecule = run_madness(geometry, n_pno)
 
     # compute energy from pyscf
-    result = compute_pyscf_energy(mol, method=pyscf_method)
-    energy = result["energy"]
+    energy, result = compute_pyscf_energy(mol, method=pyscf_method)
 
     return (madmolecule, energy, mol_name)
 
