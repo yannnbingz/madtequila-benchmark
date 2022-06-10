@@ -16,7 +16,6 @@ MADTEQUILA_IMPORT = sdk.GitImport(
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
-    n_outputs=2
 )
 def run_madness(geometry, n_pno, **kwargs):
     import qemadtequila as madtq
@@ -57,7 +56,6 @@ def run_madness(geometry, n_pno, **kwargs):
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
-    n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     import qemadtequila as madtq
@@ -117,8 +115,9 @@ def benchmarking_project():
 
     # compute energy from pyscf
     result = compute_pyscf_energy(mol, method=pyscf_method)
+    energy = result["energy"]
 
-    return (madmolecule, result, mol_name)
+    return (madmolecule, energy, mol_name)
 
 if __name__ == "__main__":
     benchmarking_project()
