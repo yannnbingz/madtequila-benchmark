@@ -1,0 +1,147 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Big benchmark project}
+\author{Jerome F. Gonthier}
+\date{March 16th 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Motivation and goals}
+
+Our original paper on the number of measurements in VQE attracted a lot of attention. We decided to follow up with another project to benchmark a number of methods proposed by other authors, if possible on the same set of molecules.
+
+\section{Methods included}
+
+Right now, we are planning to include 
+\begin{itemize}
+\item the MRA-PNO method from Jakob Kottmann in the Aspuru-Guzik group
+\item locally-biased classical shadows from Antonio Mezzacappo
+\item A grouping method from Artur Izmaylov, most likely the fully commuting grouping method, like cartan sub-algebra
+\item CB-VQE?
+\end{itemize}
+
+A recent paper might also be of interest: "Efficient estimation of Pauli observables by derandomization" (\href{https://arxiv.org/abs/2103.07510}{https://arxiv.org/abs/2103.07510}), and the associated code is freely available \href{https://github.com/momohuang/predicting-quantum-properties}{here}.
+We might include this new code as a new Estimator. It would not provide measurement counts pre-emptively though but maybe we could study a bit and figure that out.
+
+\section{MRA-PNO}
+
+\subsection{Paper notes}
+
+The paper is \href{https://arxiv.org/abs/2008.02819}{https://arxiv.org/abs/2008.02819v3}. PNOs are determined for each pair of occupied orbitals, and truncated according to their occupation numbers or to the total number of qubits available.
+
+Base don PNOs, the UpCCD Ansatz only allows double excitations from a single spatial HF orbital to the corresponding set of PNOs. This can reduce qubit requirements by a factor of two since only spatial parts need to be encoded. Moreover, only the diagonal PNOs need to be computed (i.e. PNOs for a "pair" of spin-orbitals that correspond to one spatial orbitals). This reduces the computational requirements on the MRA-PNO-MP2 approach.
+
+In the current project, do we really only want the diagonal PNOs? Or the full PNOs? We need to find a way to assess the accuracy of the final orbital basis... Maybe doing MP2 or ideally CCSD(T) calculations like in Phase I.
+
+Current questions for Jakob:
+\begin{itemize}
+\item There are two things I'd like to do with MRA: 1. understand how many qubits are necessary to reach chemical accuracy for the combustion reactions in paper I ; 2. compute a bunch of Hamiltonians of increasing size (ideally the same sizes as paper I) and evaluate their measurement requirements with different grouping methods.
+\item For 1. we basically want a proxy for the energy obtained by diagonalizing the MRA Hamiltonians. In previous work, I used FNO-CCSD(T) to evaluate the performance of the FNO basis. Here I guess we could use MRA-PNO-MP2, if we can get the energy computed in the same basis as the Hamiltonians? Since we get an orthonormal set, in principle I could feed it to a CC code and also get the energy, right?
+\item Do you have an idea how the performance varies between diagonal-only and full PNOs? (i.e. amount of correlation energy recovered/qubit)
+\end{itemize}
+
+Jakob's answers, from Slack:
+
+\begin{itemize}
+\item \textit{Use MRA-PNO integrals in classical quantum chemistry?} Yes. I added some examples to the github repo (included in madtq.yaml workflow). Currently we can do:
+FCI, MP2, CCSD, CCSD(T), CISD
+with the MRA-PNO integrals
+It's not super well tested (I tried he, be, and LiH and it behaves consistent .... at least now it does  )
+\item \textit{Do you have an idea how the performance varies between diagonal-only and full PNOs? (i.e. amount of correlation energy recovered/qubit)}
+I currently don't have much data on that. We did not use the diagonal approximation in the original paper. But since then I use it basically all the time. Until now I did not observe disadvantages.
+\item \textit{Can we get the MRA-PNO-MP2 energy in the orthogonalized basis that we’re getting the integrals from?}
+Currently not since it does not operate on a global set of orbitals. But I could make it happen. Probably the other classical methods (see above) are better though.
+\item if you want to use your own interfaces, you can get the integrals over:
+one\_body\_integrals = mol.compute\_one\_body\_integrals()
+eri=mol.compute\_two\_body\_integrals()
+eri=tq.quantumchemistry.NBodyTensor(eri,ordering="openfermion")
+eri=eri.reorder(to="mulliken").elems
+"dirac" instead of "mulliken" is also supported but I think most qc programs use mulliken ordering.
+\end{itemize}
+
+\subsection{Initial experiments}
+
+How many MRA-PNOs do we need to reach the complete basis set limit? Is there a performance difference between diagonal and non-diagonal PNOs? We first check the original paper for answers to these questions. It seems between 3 and 10 MRA-PNOs per active electrons are required, but these tests were only to match the accuracy of a Gaussian basis set and not to reach the CBS limit.
+
+Playing around in a local Docker image seems to show that everything is working. Computing the MRA-PNOs certainly takes time (on H2) so we should not waste that. It might be difficult to get the CBS limit for the larger molecules.
+
+Our H2 experiment yields the following FCI energies from PySCF:
+\begin{center}
+\begin{tabular}{ |c| c|c| }
+\hline
+ active space &  energy (diag only) & energy (full PNOs) \\ 
+ \hline 
+ (2,4) & -1.1497667724384661 & -1.1497667724384661 \\
+ \hline
+ (2,6) & -1.157544863519457 & -1.157544863519457 \\
+ \hline
+ (2, 10) & -1.168368801173414 & -1.168368800989473 \\
+ \hline
+ (2, 14) & -1.1695774904728027 & -1.1695774895558975 \\
+ \hline
+ (2, 18) & -1.1702075924890352 & -1.1702076570116717 \\
+ \hline
+ (2, 22) & -1.170905764127486 & -1.1709057635806879 \\
+ \hline
+ (2, 26) & -1.1715207016461733 & -1.1715206990209435 \\
+ \hline
+ (2, 30) & -1.1718453888780074 & -1.1718453229612793 \\
+ \hline
+\end{tabular}
+\end{center}
+
+This indicates that at least 10 MRA-PNOs per occupied orbital are needed to reach mHa accuracy in the total energy, using the diagonal-only PNOs. 60 s were necessary to compute the MRA-PNOs in that case. For 14 MRA-PNOs per occupied orbital, 120 s were necessary. The same times were observed when only computing the diagonal PNOs.
+
+This is where I realize that H2 only has one orbital, so there cannot be any non-diagonal PNOs. Mondays are hard.
+
+We repeat the experiment on H4 to check the convergence and the difference between diagonal and full PNOs, using again the FCI energies. The geometry is a square with side 0.75~\A{}.
+
+\begin{center}
+\begin{tabular}{ |c| c|c| }
+\hline
+ active space &  energy (diag only) & energy (full PNOs) \\ 
+ \hline 
+ (4,6) & -1.817831672223062 & -1.8178295048629822 \\
+ \hline
+ (4,8) & -1.840594703441977 & -1.8405445183874782 \\
+ \hline
+ (4, 12) &  -1.857318305384835 & -1.8574849451001807 \\
+ \hline
+ (4, 16) &  -1.8687273072584576 & -1.8706157762658489 \\
+ \hline
+ (4, 20) & -1.8808140707567729 & -1.8744025514473686 \\
+ \hline
+ (4, 24) &  -1.8833040706458952 & -1.8802356477089015 \\
+ \hline
+ (4, 28) &  -1.8895715784723741 & -1.8874586876904473 \\
+ \hline
+ (4, 32) &  -1.8912921634801814 & -1.890004735443422 \\
+ \hline
+ (4, 36) & -1.8932972944663025 & -1.897427068778267 \\
+ \hline
+ (4, 44) & -1.8974958972851796 & -1.8996169509770535 \\
+ \hline
+ (4, 52) & -1.8994859593005167 & -1.900685943423304 \\
+ \hline
+ (4, 60) & -1.9007212469026014 & -1.9025990324716933 \\
+ \hline
+\end{tabular}
+\end{center}
+
+
+Since we don't want to compute that many PNOs for each molecule in our test set, or even just for CO2, we should start by computing the MRA-PNO Hamiltonians up to 80 qubits with an integer number of orbitals per occupied. We will start with methane, water and CO2. O2 will have to wait a bit because we cannot treat triplets at the moment, at least the MRA-PNO code seems restricted to singlets.
+O2 will have to be a separate workflow, and we might only compute the classical energies and not the Hamiltonians. We should check with BP that we can use these molecules and then check with Jakob about a possible solution.
+
+Note: we could have the CCSD(T) PySCF thing also return the HF, MP2 and CCSD energies.
+
+
+
+
+\end{document}
+

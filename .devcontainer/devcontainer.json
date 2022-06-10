@@ -1,6 +1,6 @@
 {
   "name": "Orquestra Dev Project Container",
-  "image": "hub.orquestra.wtf/orquestra-studio/orquestra-studio:staging",
+  "image": "hub.orquestra.wtf/orquestra-studio/orquestra-studio:0.10.0",
   "settings": {
     "python.pythonPath": "/home/orquestra/.miniconda3/bin/python",
     "python.languageServer": "Pylance",
