@@ -6,7 +6,7 @@ from orquestra.runtime._config import read_config
 CLUSTER_URL = "https://pse-1.orquestra.io"
 # replace with workflow ID returned from submit command
 # WORKFLOW_ID = "benchmarking-project-jozqe-r000"
-WORKFLOW_ID = "benchmarking-project-yaten-r000"
+WORKFLOW_ID = "benchmarking-project-jykmr-r000"
 PATH_TO_RESULT = "results/"
 
 runtime = QERuntime.from_runtime_configuration(
@@ -20,7 +20,7 @@ workflow_results = runtime.get_workflow_run_outputs_non_blocking(WORKFLOW_ID)
 # mol_name = workflow_results[2]
 # n_pno = madmolecule["n_pno"]
 
-print(n_pno)
+# print(n_pno)
 
 
 # print("energy: ", energy)

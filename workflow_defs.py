@@ -123,7 +123,7 @@ def benchmarking_project():
     # compute energy from pyscf
     energy, result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    return (energy, madmolecule)
+    return (energy, madmolecule, result)
 
 if __name__ == "__main__":
     benchmarking_project()
