@@ -12,42 +12,6 @@ MADTEQUILA_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-# MADTEQUILA_IMPORT = sdk.GitImport(
-#     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
-#     git_ref="li-openshell",
-# )
-
-# @sdk.task()
-# def geometry_def(geo_name):
-#     return geo_name
-@sdk.task(
-        source_import=THIS_IMPORT,
-)
-def geometry_def(geo_name):
-
-    H2 = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "H","x": 0,"y": 0,"z": 0},
-                        {"species": "H","x": 0,"y": 0,"z": 0.7},
-                        ]
-        }
-    H4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.75},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                         ]
-        }
-    Li = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "Li","x": 0,"y": 0,"z": 0}
-                        ]
-        }
-
-    geo_dict = {"h2": H2, "h4": H4, "li": Li}
-    return geo_dict[geo_name]
-
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
@@ -104,33 +68,53 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
             "energy":energy}
     print("***PYSCF RESULT: ***\n", result)
 
-    return energy
+    return energy, result
 
+@sdk.task(
+        source_import=THIS_IMPORT,
+)
+def geometry_def(geo_name):
 
+    H2 = {"schema": "molecular_geometry",
+            "sites": [
+                        {"species": "H","x": 0,"y": 0,"z": 0},
+                        {"species": "H","x": 0,"y": 0,"z": 0.7},
+                        ]
+        }
+    H4 = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "H","x": 0,"y": 0,"z": 0},
+                            {"species": "H","x": 0,"y": 0,"z": 0.75},
+                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
+                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
+                         ]
+        }
+    Li = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "Li","x": 0,"y": 0,"z": 0}
+                        ]
+        }
+
+    geo_dict = {"h2": H2, "h4": H4, "li": Li}
+    return geo_dict[geo_name]
 
 @sdk.workflow
 def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    geometry = geometry_def('h2')
-    # geometry = {"schema": "molecular_geometry",
-    #         "sites": [
-    #                     {"species": "H","x": 0,"y": 0,"z": 0},
-    #                     {"species": "H","x": 0,"y": 0,"z": 0.7},
-    #                     ]
-    #     }
-    
+    mol_name = 'h2'
     n_pno = 2
     pyscf_method = 'ccsd(t)'
+    geometry = geometry_def(mol_name)
 
     # compute mra-pno 1 and 2 body integrals from madness
     mol, madmolecule = run_madness(geometry, n_pno)
 
     # compute energy from pyscf
-    energy = compute_pyscf_energy(mol, method=pyscf_method)
+    energy, e_result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    return (energy, madmolecule)
+    return (energy, e_result, madmolecule, mol_name, n_pno)
 
 if __name__ == "__main__":
     benchmarking_project()
