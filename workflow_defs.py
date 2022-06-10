@@ -37,16 +37,14 @@ def geometry_def(geo_name):
                             {"species": "H","x": 0.75,"y": 0,"z": 0.75},
                          ]
         }
-    # Li = {"schema": "molecular_geometry",
-    #             "sites": [
-    #                         {"species": "Li","x": 0,"y": 0,"z": 0}
-    #                     ]
-    #     }
+    Li = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "Li","x": 0,"y": 0,"z": 0}
+                        ]
+        }
 
-    geo_dict = {"h2": H2, "h4": H4, 
-    # "li": Li
-    }
-    return 0
+    geo_dict = {"h2": H2, "h4": H4, "li": Li}
+    return geo_dict
 
 @sdk.task(
     source_import=THIS_IMPORT,
@@ -114,7 +112,6 @@ def benchmarking_project():
     regression."""
     # parameter input
     geometry = geometry_def('h2')
-    # geometry = geometry_def('h2')
     geometry = {"schema": "molecular_geometry",
             "sites": [
                         {"species": "H","x": 0,"y": 0,"z": 0},
