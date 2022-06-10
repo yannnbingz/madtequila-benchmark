@@ -57,7 +57,7 @@ def run_madness(geometry, n_pno, **kwargs):
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
-    n_outputs=2
+    n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     import qemadtequila as madtq
@@ -77,7 +77,7 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
     print("*** PYSCF ENERGY: ***\n")
     print(energy)
 
-    return energy, results_dict
+    return results_dict
 
 @sdk.task(
         source_import=THIS_IMPORT,
@@ -121,9 +121,9 @@ def benchmarking_project():
     mol, madmolecule = run_madness(geometry, n_pno)
 
     # compute energy from pyscf
-    energy, result = compute_pyscf_energy(mol, method=pyscf_method)
+    result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    return (energy, madmolecule, result)
+    return (madmolecule, result)
 
 if __name__ == "__main__":
     benchmarking_project()

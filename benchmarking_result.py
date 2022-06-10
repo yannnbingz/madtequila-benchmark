@@ -6,7 +6,7 @@ from orquestra.runtime._config import read_config
 CLUSTER_URL = "https://pse-1.orquestra.io"
 # replace with workflow ID returned from submit command
 # WORKFLOW_ID = "benchmarking-project-jozqe-r000"
-WORKFLOW_ID = "benchmarking-project-jykmr-r000"
+WORKFLOW_ID = "benchmarking-project-xdtcm-r000"
 PATH_TO_RESULT = "results/"
 
 runtime = QERuntime.from_runtime_configuration(
