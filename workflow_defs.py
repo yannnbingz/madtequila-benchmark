@@ -20,7 +20,9 @@ MADTEQUILA_IMPORT = sdk.GitImport(
 # @sdk.task()
 # def geometry_def(geo_name):
 #     return geo_name
-@sdk.task()
+@sdk.task(
+        source_import=THIS_IMPORT,
+)
 def geometry_def(geo_name):
 
     H2 = {"schema": "molecular_geometry",
