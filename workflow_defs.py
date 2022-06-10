@@ -17,33 +17,31 @@ MADTEQUILA_IMPORT = sdk.GitImport(
 #     git_ref="li-openshell",
 # )
 
-@sdk.task()
-def geometry_def(geo_name):
+# @sdk.task()
+# def geometry_def(geo_name):
 
-    H2 = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "H","x": 0,"y": 0,"z": 0},
-                        {"species": "H","x": 0,"y": 0,"z": 0.7},
-                        ]
-        }
-    H4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.75},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                         ]
-        }
-    # lithium = {"schema": "molecular_geometry",
-    #             "sites": [
-    #                         {"species": "Li","x": 0,"y": 0,"z": 0}
-    #                     ]
-    #     }
+#     H2 = {"schema": "molecular_geometry",
+#             "sites": [
+#                         {"species": "H","x": 0,"y": 0,"z": 0},
+#                         {"species": "H","x": 0,"y": 0,"z": 0.7},
+#                         ]
+#         }
+#     H4 = {"schema": "molecular_geometry",
+#                 "sites": [
+#                             {"species": "H","x": 0,"y": 0,"z": 0},
+#                             {"species": "H","x": 0,"y": 0,"z": 0.75},
+#                             {"species": "H","x": 0.75,"y": 0,"z": 0.0},
+#                             {"species": "H","x": 0.75,"y": 0,"z": 0.75},
+#                          ]
+#         }
+#     Li = {"schema": "molecular_geometry",
+#                 "sites": [
+#                             {"species": "Li","x": 0,"y": 0,"z": 0}
+#                         ]
+#         }
 
-    geo_dict = {"h2": H2, "h4": H4, 
-    # "li": lithium
-    }
-    return geo_dict[geo_name]
+#     geo_dict = {"h2": H2, "h4": H4, "li": Li}
+#     return geo_dict[geo_name]
 
 @sdk.task(
     source_import=THIS_IMPORT,
@@ -110,7 +108,13 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    geometry = geometry_def('h2')
+    # geometry = geometry_def('h2')
+    geometry = {"schema": "molecular_geometry",
+            "sites": [
+                        {"species": "H","x": 0,"y": 0,"z": 0},
+                        {"species": "H","x": 0,"y": 0,"z": 0.7},
+                        ]
+        }
     n_pno = 2
     pyscf_method = 'ccsd(t)'
 
