@@ -17,6 +17,32 @@ MADTEQUILA_IMPORT = sdk.GitImport(
 #     git_ref="li-openshell",
 # )
 
+@sdk.task()
+def geometry_def(geo_name):
+
+    H2 = {"schema": "molecular_geometry",
+            "sites": [
+                        {"species": "H","x": 0,"y": 0,"z": 0},
+                        {"species": "H","x": 0,"y": 0,"z": 0.7},
+                        ]
+            }
+    H4 = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "H","x": 0,"y": 0,"z": 0},
+                            {"species": "H","x": 0,"y": 0,"z": 0.75},
+                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
+                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
+                         ]
+          }
+    Li = {"schema": "molecular_geometry",
+            "sites": [
+                        {"species": "Li","x": 0,"y": 0,"z": 0},
+                     ]
+                }
+
+    geo_dict = {"h2": H2, "h4": H4, "li": Li}
+    return geo_dict[geo_name]
+
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
@@ -75,32 +101,6 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 
     return energy
 
-
-@sdk.task()
-def geometry_def(geo_name):
-
-    H2 = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "H","x": 0,"y": 0,"z": 0},
-                        {"species": "H","x": 0,"y": 0,"z": 0.7},
-                        ]
-            }
-    H4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.75},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                         ]
-          }
-    Li = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "Li","x": 0,"y": 0,"z": 0},
-                     ]
-                }
-
-    geo_dict = {"h2": H2, "h4": H4, "li": Li}
-    return geo_dict[geo_name]
 
 
 @sdk.workflow
