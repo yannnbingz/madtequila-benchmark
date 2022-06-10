@@ -112,12 +112,12 @@ def benchmarking_project():
     regression."""
     # parameter input
     geometry = geometry_def('h2')
-    geometry = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "H","x": 0,"y": 0,"z": 0},
-                        {"species": "H","x": 0,"y": 0,"z": 0.7},
-                        ]
-        }
+    # geometry = {"schema": "molecular_geometry",
+    #         "sites": [
+    #                     {"species": "H","x": 0,"y": 0,"z": 0},
+    #                     {"species": "H","x": 0,"y": 0,"z": 0.7},
+    #                     ]
+    #     }
     
     n_pno = 2
     pyscf_method = 'ccsd(t)'
