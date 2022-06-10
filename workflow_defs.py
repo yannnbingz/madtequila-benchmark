@@ -44,7 +44,7 @@ def geometry_def(geo_name):
         }
 
     geo_dict = {"h2": H2, "h4": H4, "li": Li}
-    return geo_dict
+    return geo_dict[geo_name]
 
 @sdk.task(
     source_import=THIS_IMPORT,
