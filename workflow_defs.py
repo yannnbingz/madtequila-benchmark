@@ -104,7 +104,7 @@ def geometry_def(geo_name):
 
 
 @sdk.workflow
-def benchmarking_h2():
+def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
@@ -121,4 +121,4 @@ def benchmarking_h2():
     return (energy, madmolecule)
 
 if __name__ == "__main__":
-    benchmarking_h2()
+    benchmarking_project()
