@@ -8,17 +8,17 @@ THIS_IMPORT = sdk.GitImport(
 )
 
 MADTEQUILA_IMPORT = sdk.GitImport(
-    repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", 
+    repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
     git_ref="main",
 )
 
 # MADTEQUILA_IMPORT = sdk.GitImport(
-#     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git", 
+#     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
 #     git_ref="li-openshell",
 # )
 
 @sdk.task(
-    source_import=THIS_IMPORT, 
+    source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
 )
@@ -35,7 +35,7 @@ def run_madness(geometry, n_pno, **kwargs):
             molgeometry = json.load(f)
     else:
         geometry_str = geometry
-    
+
     if molgeometry is not None:
         for atom in molgeometry["sites"]:
             geometry_str += "{} {} {} {}\n".format(
@@ -55,10 +55,10 @@ def run_madness(geometry, n_pno, **kwargs):
     results_dict["mol"]=json_string
 
     return mol, results_dict
-    
+
 
 @sdk.task(
-    source_import=THIS_IMPORT, 
+    source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=1
@@ -76,40 +76,45 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
     return energy
 
 
-@sdk.task
-def geometry_def(geo_name):
+# @sdk.task()
+# def geometry_def(geo_name):
 
-    H2 = {"schema": "molecular_geometry",
+#     H2 = {"schema": "molecular_geometry",
+#             "sites": [
+#                         {"species": "H","x": 0,"y": 0,"z": 0},
+#                         {"species": "H","x": 0,"y": 0,"z": 0.7},
+#                         ]
+#             }
+#     H4 = {"schema": "molecular_geometry",
+#                 "sites": [
+#                             {"species": "H","x": 0,"y": 0,"z": 0},
+#                             {"species": "H","x": 0,"y": 0,"z": 0.75},
+#                             {"species": "H","x": 0.75,"y": 0,"z": 0.0},
+#                             {"species": "H","x": 0.75,"y": 0,"z": 0.75},
+#                          ]
+#           }
+#     Li = {"schema": "molecular_geometry",
+#             "sites": [
+#                         {"species": "Li","x": 0,"y": 0,"z": 0},
+#                      ]
+#                 }
+
+#     geo_dict = {"h2": H2, "h4": H4, "li": Li}
+#     return geo_dict[geo_name]
+
+
+@sdk.workflow
+def benchmarking_h2():
+    """Workflow that generates random samples and fits them using a linear
+    regression."""
+    # parameter input
+    #geometry = geometry_def('h2')
+    geometry = {"schema": "molecular_geometry",
             "sites": [
                         {"species": "H","x": 0,"y": 0,"z": 0},
                         {"species": "H","x": 0,"y": 0,"z": 0.7},
                         ]
-            } 
-    H4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.75},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                         ]
-          }
-    Li = {"schema": "molecular_geometry",
-            "sites": [
-                        {"species": "Li","x": 0,"y": 0,"z": 0},
-                     ]
-                }
-
-    geo_dict = {"h2": H2, "h4": H4, "li": Li} 
-    return geo_dict[geo_name]      
-
-
-@sdk.workflow
-def benchmarking_project():
-    """Workflow that generates random samples and fits them using a linear
-    regression."""
-
-    # parameter input
-    geometry = geometry_def('h2')
+            }
     n_pno = 2
     pyscf_method = 'ccsd(t)'
 
@@ -118,8 +123,8 @@ def benchmarking_project():
 
     # compute energy from pyscf
     energy = compute_pyscf_energy(mol, method=pyscf_method)
-    
+
     return (energy, madmolecule)
 
 if __name__ == "__main__":
-    benchmarking_project()
+    benchmarking_h2()
