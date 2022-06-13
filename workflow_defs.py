@@ -111,12 +111,21 @@ def geometry_def(geo_name):
         }
     H2O = {"schema": "molecular_geometry",
                 "sites": [
-                            {"species": "H","x": -0.000000000000,"y":  0.754700000000,"z": -0.521394777902 },
+                            {"species": "H","x": -0.000000000000,"y":  0.754700000000,"z": -0.521394777902},
                             {"species": "H","x":  0.000000000000,"y": -0.754700000000,"z": -0.521394777902},
                             {"species": "O","x": -0.000000000000, "y": 0.000000000000,"z":  0.065705222098},
                         ]   
         }
-    geo_dict = {'h2': H2, 'h4': H4, 'li': Li, 'o2': O2, 'h2o': H2O}
+    CH4 = {"schema": "molecular_geometry",
+                "sites": [
+                            {"species": "C","x": -0.000000000000,"y":  0.000000000000,"z": -0.000000000000},
+                            {"species": "H","x":  0.886146218183,"y":  0.000000000000,"z":  0.626600000000},
+                            {"species": "H","x": -0.886146218183,"y": -0.000000000000,"z":  0.626600000000},
+                            {"species": "H","x": -0.000000000000,"y":  0.886146218183,"z": -0.626600000000},
+                            {"species": "H","x":  0.000000000000,"y": -0.886146218183,"z": -0.626600000000}
+                        ]
+        }
+    geo_dict = {'h2': H2, 'h4': H4, 'li': Li, 'o2': O2, 'h2o': H2O, 'ch4': CH4}
     return geo_dict[geo_name]
 
 @sdk.workflow
@@ -124,7 +133,7 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h2o'
+    mol_name = 'ch4'
     n_pno = 4
     pyscf_method = 'ccsd(t)'
     geometry = geometry_def(mol_name)
