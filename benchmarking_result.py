@@ -25,7 +25,7 @@ madmolecule = workflow_results[0]
 result = workflow_results[1]
 
 # process results
-result["MRA-PNO"] = "({},{})".format(result["n_electronss"], result["n_orbitals"]*2)
+result["MRA-PNO"] = "({},{})".format(result["n_electrons"], result["n_orbitals"]*2)
 energy = result["energy"]
 mol_name = result["name"]
 n_pno = madmolecule["n_pno"]
