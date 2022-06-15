@@ -1,0 +1,66 @@
+# n_pno = 2
+
+root@9c76aba748b0:/app/madtequila-benchmark/results/o2/tmp3# python run_o2_cbs.py
+pyscf plugins found in
+/app/pyscf
+When PYTHONPATH is set, it is recommended to load these plugins through the environment variable PYSCF_EXT_PATHTraceback (most recent call last):
+  File "/app/madtequila-benchmark/results/o2/tmp3/run_o2_cbs.py", line 9, in <module>
+    run_madness('mol.json', i, name="o2", frozen_core=True)
+  File "/app/yz-openshell-madtequila/steps/run_madtequila.py", line 27, in run_madness
+    with open(geometry) as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'mol.json'
+root@9c76aba748b0:/app/madtequila-benchmark/results/o2/tmp3# vi run_o2_cbs.py
+root@9c76aba748b0:/app/madtequila-benchmark/results/o2/tmp3# python run_o2_cbs.py
+pyscf plugins found in
+/app/pyscf
+When PYTHONPATH is set, it is recommended to load these plugins through the environment variable PYSCF_EXT_PATHn_electrons init:  16
+n_electrons after frozen core:  12
+n_paris:  6
+n_pno:  2
+Starting madness calculation with executable:  /app/madroot//src/apps/pno/pno_integrals
+output redirected to o2_pno_integrals.out logfile
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+finished after 173.71975564956665s
+Traceback (most recent call last):
+  File "/app/madtequila-benchmark/results/o2/tmp3/run_o2_cbs.py", line 9, in <module>
+    run_madness('../mol.json', i, name="o2", frozen_core=True)
+  File "/app/yz-openshell-madtequila/steps/run_madtequila.py", line 38, in run_madness
+    mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 43, in run_madness
+    mol = tq.Molecule(geometry=geometry, n_pno=n_pno, **kwargs)
+  File "/app/tequila/src/tequila/quantumchemistry/__init__.py", line 110, in Molecule
+    return INSTALLED_QCHEMISTRY_BACKENDS[backend.lower()](parameters=parameters, transformation=transformation,
+  File "/app/tequila/src/tequila/quantumchemistry/madness_interface.py", line 115, in __init__
+    raise TequilaMadnessException("Could not initialize the madness interface\n"
+tequila.quantumchemistry.madness_interface.TequilaMadnessException: Error in madness backend:Could not initialize the madness interface
+Status report is
+found o2_htensor.npy=False
+found o2_gtensor.npy=False
+madness=madness_run=[Errno 2] No such file or directory: 'pnoinfo.txt' -> 'o2_pnoinfo.txt'
+found o2_htensor.npy=False
+found o2_gtensor.npy=False
+
+either provide o2_gtensor.npy and o2_htensor.npy files
+or provide the number of pnos over by giving the n_pnos keyword to run madness
+in order for madness to run you need to make sure that the pno_integrals executable can be found in your environment
+alternatively you can provide the path to the madness_root_dir: the directory where you compiled madness
