@@ -133,8 +133,8 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h4'
-    n_pno = 4
+    mol_name = 'h2o'
+    n_pno = 8
     pyscf_method = 'ccsd(t)'
     geometry = geometry_def(mol_name)
 
