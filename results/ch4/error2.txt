@@ -1,0 +1,49 @@
+#set n_pno = 6
+root@9c76aba748b0:/app/vqe-meas-benchmark/MRA-test/ch4# python run_ch4_cbs.py
+pyscf plugins found in
+/app/pyscf
+When PYTHONPATH is set, it is recommended to load these plugins through the environment variable PYSCF_EXT_PATHn_electrons init:  10
+n_electrons after frozen core:  8
+n_paris:  4
+n_pno:  6
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_htensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_gtensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_pnoinfo.txt from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_pno_integrals.out from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+Starting madness calculation with executable:  /app/madroot//src/apps/pno/pno_integrals
+output redirected to ch4_pno_integrals.out logfile
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+finished after 153.42242407798767s
+Traceback (most recent call last):
+  File "/app/vqe-meas-benchmark/MRA-test/ch4/run_ch4_cbs.py", line 9, in <module>
+    run_madness('mol.json', i, name='ch4', frozen_core=True)
+  File "/app/yz-openshell-madtequila/steps/run_madtequila.py", line 38, in run_madness
+    mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 43, in run_madness
+    mol = tq.Molecule(geometry=geometry, n_pno=n_pno, **kwargs)
+  File "/app/tequila/src/tequila/quantumchemistry/__init__.py", line 110, in Molecule
+    return INSTALLED_QCHEMISTRY_BACKENDS[backend.lower()](parameters=parameters, transformation=transformation,
+  File "/app/tequila/src/tequila/quantumchemistry/madness_interface.py", line 115, in __init__
+    raise TequilaMadnessException("Could not initialize the madness interface\n"
+tequila.quantumchemistry.madness_interface.TequilaMadnessException: Error in madness backend:Could not initialize the madness interface
+Status report is
+found ch4_htensor.npy=False
+found ch4_gtensor.npy=False
+madness=madness_run=[Errno 2] No such file or directory: 'pnoinfo.txt' -> 'ch4_pnoinfo.txt'
+found ch4_htensor.npy=False
+found ch4_gtensor.npy=False
+
+either provide ch4_gtensor.npy and ch4_htensor.npy files
+or provide the number of pnos over by giving the n_pnos keyword to run madness
+in order for madness to run you need to make sure that the pno_integrals executable can be found in your environment
+alternatively you can provide the path to the madness_root_dir: the directory where you compiled madness
+

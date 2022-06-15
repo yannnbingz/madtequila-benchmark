@@ -1,0 +1,28 @@
+{"schema": "molecular_geometry",
+"sites": [
+    {
+        "species": "H",
+        "x": 0,
+        "y": 0,
+        "z": 0
+    },
+    {
+        "species": "H",
+        "x": 0,
+        "y": 0,
+        "z": 0.75
+    },
+    {
+        "species": "H",
+        "x": 0.75,
+        "y": 0,
+        "z": 0.0
+    },
+    {
+        "species": "H",
+        "x": 0.75,
+        "y": 0,
+        "z": 0.75
+    }
+]
+}

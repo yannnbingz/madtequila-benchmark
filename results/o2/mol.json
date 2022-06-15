@@ -1,0 +1,16 @@
+{"schema": "molecular_geometry",
+"sites": [
+    {
+        "species": "O",
+        "x": 0,
+        "y": 0,
+        "z": 0.602900000000
+    },
+    {
+        "species": "O",
+        "x": 0,
+        "y": 0,
+        "z": -0.602900000000
+    }
+]
+}

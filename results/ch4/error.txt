@@ -1,0 +1,54 @@
+#set n_pno = 2
+
+
+root@9c76aba748b0:/app/vqe-meas-benchmark/MRA-test/ch4# python run_ch4_cbs.py
+pyscf plugins found in
+/app/pyscf
+When PYTHONPATH is set, it is recommended to load these plugins through the environment variable PYSCF_EXT_PATHn_electrons init:  10
+n_electrons after frozen core:  8
+n_paris:  4
+n_pno:  2
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_htensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_gtensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_pnoinfo.txt from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file ch4_pno_integrals.out from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+Starting madness calculation with executable:  /app/madroot//src/apps/pno/pno_integrals
+output redirected to ch4_pno_integrals.out logfile
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+finished after 102.68335175514221s
+2body shape:,  (7, 7, 7, 7)
+occupied_indices:  [0, 3, 4]
+2body shape:,  (7, 7, 7, 7)
+occupied_indices:  [0, 3, 4]
+
+ 1: mol.active_space.active_orbitals [1, 2, 3]
+2body shape:,  (4, 4, 4, 4)
+occupied_indices:  [0, 4]
+Traceback (most recent call last):
+  File "/app/vqe-meas-benchmark/MRA-test/ch4/run_ch4_cbs.py", line 10, in <module>
+    compute_pyscf_energy('madmolecule.json', method='ccsd(t)')
+  File "/app/yz-openshell-madtequila/steps/run_madtequila.py", line 158, in compute_pyscf_energy
+    energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 182, in compute_pyscf_energy
+    ccsd=run_pyscf_ccsd(mol=mol, *args, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 119, in run_pyscf_ccsd
+    hf = run_pyscf_hf(mol, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 72, in run_pyscf_hf
+    c, h1, h2 = fetch_integrals(mol)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 51, in fetch_integrals
+    c, h1, h2 = mol.molecule.get_active_space_integrals(active_indices=mol.active_space.active_orbitals,occupied_indices=mol.active_space.frozen_reference_orbitals)
+  File "/usr/local/lib/python3.9/dist-packages/openfermion/chem/molecular_data.py", line 874, in get_active_space_integrals
+    return reps.get_active_space_integrals(one_body_integrals,
+  File "/usr/local/lib/python3.9/dist-packages/openfermion/ops/representations/interaction_operator.py", line 253, in get_active_space_integrals
+    core_constant += (2 * two_body_integrals[i, j, j, i] -
+IndexError: index 4 is out of bounds for axis 1 with size 4
+

@@ -1,0 +1,36 @@
+dft
+charge 0
+xc hf
+k 7
+econv 0.0001
+dconv 0.0005
+localize boys
+ncf ( none , 1.0 )
+end
+
+pno
+maxrank 4
+f12 false
+thresh 0.0001
+diagonal True
+end
+
+pnoint
+n_pno 16
+n_virt 0
+orthog symmetric
+end
+
+plot
+end
+
+f12
+end
+
+geometry
+units angstrom
+eprec 1.e-6
+H -0.0 0.7547 -0.521394777902
+H 0.0 -0.7547 -0.521394777902
+O -0.0 0.0 0.065705222098
+end
