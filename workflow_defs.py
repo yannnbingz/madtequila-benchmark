@@ -17,7 +17,7 @@ MADTEQUILA_IMPORT = sdk.GitImport(
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=2,
-    resources=sdk.Resources(cpu=“6000m”, memory=“6Gb”)
+    resources=sdk.Resources(cpu='6000m', memory='6Gb')
 )
 def run_madness(geometry, n_pno, **kwargs):
     import qemadtequila as madtq
@@ -115,7 +115,7 @@ def geometry_def(geo_name):
                             {"species": "H","x": -0.000000000000,"y":  0.754700000000,"z": -0.521394777902},
                             {"species": "H","x":  0.000000000000,"y": -0.754700000000,"z": -0.521394777902},
                             {"species": "O","x": -0.000000000000,"y":  0.000000000000,"z":  0.065705222098},
-                        ]   
+                        ]
         }
     CH4 = {"schema": "molecular_geometry",
                 "sites": [
