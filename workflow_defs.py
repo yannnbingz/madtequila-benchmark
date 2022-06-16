@@ -9,14 +9,15 @@ THIS_IMPORT = sdk.GitImport(
 
 MADTEQUILA_IMPORT = sdk.GitImport(
     repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
-    git_ref="h2o",
+    git_ref="o2",
 )
 
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[MADTEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
-    n_outputs=2
+    n_outputs=2,
+    resources=sdk.Resources(cpu=“6000m”, memory=“6Gb”)
 )
 def run_madness(geometry, n_pno, **kwargs):
     import qemadtequila as madtq
@@ -133,13 +134,14 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h2o'
-    n_pno = 8
+    mol_name = 'o2'
+    n_pno = 6
+    maxrank = 2
     pyscf_method = 'ccsd(t)'
     geometry = geometry_def(mol_name)
 
     # compute mra-pno 1 and 2 body integrals from madness
-    mol, madmolecule = run_madness(geometry, n_pno, frozen_core=True, name=mol_name)
+    mol, madmolecule = run_madness(geometry, n_pno, frozen_core=True, name=mol_name, maxrank=maxrank)
 
     # compute energy from pyscf
     result = compute_pyscf_energy(mol, method=pyscf_method)
