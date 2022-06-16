@@ -1,7 +1,0 @@
-start_prec 0.0001
-end_prec 0.0001
-current_prec 0.0001
-econv 0.0001
-dconv 0.0005
-thresh 0.0001
-user_dconv 0.0005
