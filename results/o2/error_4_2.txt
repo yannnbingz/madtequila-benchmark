@@ -1,0 +1,58 @@
+root@9c76aba748b0:/app/madtequila-benchmark/results/o2# python run_o2_cbs.py
+pyscf plugins found in
+/app/pyscf
+When PYTHONPATH is set, it is recommended to load these plugins through the environment variable PYSCF_EXT_PATHn_electrons init:  16
+n_electrons after frozen core:  12
+n_paris:  6
+n_pno:  4
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file o2_htensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file o2_gtensor.npy from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file o2_pnoinfo.txt from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+/app/tequila/src/tequila/quantumchemistry/madness_interface.py:213: TequilaWarning: Found file o2_pno_integrals.out from previous calculation ... deleting it
+  warnings.warn("Found file {} from previous calculation ... deleting it".format(filename),
+Starting madness calculation with executable:  /app/madroot//src/apps/pno/pno_integrals
+output redirected to o2_pno_integrals.out logfile
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+A madness exception occurred. Place a break point at madness::exception_break to debug.
+finished after 572.0338129997253s
+2body shape:,  (12, 12, 12, 12)
+occupied_indices:  [0, 1, 3, 7]
+2body shape:,  (12, 12, 12, 12)
+occupied_indices:  [0, 1, 3, 7]
+2body shape:,  (8, 8, 8, 8)
+occupied_indices:  [0, 1, 3]
+nelec 10
+E(CCSD) = 29.81809035651584  E_corr = 0
+Traceback (most recent call last):
+  File "/app/madtequila-benchmark/results/o2/run_o2_cbs.py", line 10, in <module>
+    compute_pyscf_energy('madmolecule.json', method='ccsd(t)')
+  File "/app/yz-openshell-madtequila/steps/run_madtequila.py", line 158, in compute_pyscf_energy
+    energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 184, in compute_pyscf_energy
+    energy += compute_pscf_ccsdpt_correction(ccsd=ccsd)
+  File "/app/yz-openshell-madtequila/src/python/qemadtequila/_madness_tequila.py", line 142, in compute_pscf_ccsdpt_correction
+    ecorr = ccsd.ccsd_t()
+  File "/app/pyscf/pyscf/cc/ccsd.py", line 1093, in ccsd_t
+    return ccsd_t.kernel(self, eris, t1, t2, self.verbose)
+  File "/app/pyscf/pyscf/cc/ccsd_t.py", line 51, in kernel
+    orbsym = _sort_eri(mycc, eris, nocc, nvir, eris_vvop, log)
+  File "/app/pyscf/pyscf/cc/ccsd_t.py", line 152, in _sort_eri
+    blksize = min(nvir, max(16, int(max_memory*1e6/8/(nvir*nocc*nmo))))
+ZeroDivisionError: float division by zero
+
