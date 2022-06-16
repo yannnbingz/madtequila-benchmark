@@ -1,9 +1,5 @@
 {
   "SCHEMA": "schema",
-  "name": "h4",
-  "method": "ccsd(t)",
-  "n_electrons": 4,
-  "n_orbitals": 6,
-  "energy": -1.8372180049786482,
-  "MRA-PNO": "(4,12)"
+  "info": "h4 - ccsd(t)/MRA-PNO(4,12)",
+  "energy": -1.8574836312061855
 }
