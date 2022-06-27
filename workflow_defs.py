@@ -86,13 +86,13 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'he'
-    n_pno = 2
+    mol_name = 'ch4'
+    n_pno = 4
     maxrank = 2
-    pyscf_method = 'hf'
-    frozen_core=False
-    geometry = 'he 0.0 0.0 0.0'
-
+    pyscf_method = 'ccsd(t)'
+    frozen_core=True
+    #geometry = 'he 0.0 0.0 0.0'
+    geometry = 'C -0.000000000000 0.000000000000 -0.000000000000 \n H 0.886146218183 0.000000000000 0.626600000000 \n H -0.886146218183 -0.000000000000 0.626600000000 \n H -0.000000000000 0.886146218183 -0.626600000000 \n H 0.000000000000 -0.886146218183 -0.626600000000'
     # compute mra-pno 1 and 2 body integrals from madness
     mol, madmolecule, h, g = run_madness(   
                                             name=mol_name, 
