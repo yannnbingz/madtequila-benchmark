@@ -18,7 +18,7 @@ CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
     n_outputs=4,
-    #resources=sdk.Resources(cpu='6000m', memory='6Gb')
+    resources=sdk.Resources(cpu='6000m')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
