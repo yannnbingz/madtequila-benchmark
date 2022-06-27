@@ -1,4 +1,3 @@
-import json
 import orquestra.sdk.v2.dsl as sdk
 
 
@@ -7,64 +6,66 @@ THIS_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-MADTEQUILA_IMPORT = sdk.GitImport(
-    repo_url="git@github.com:yannnbingz/yz-openshell-madtequila.git",
-    git_ref="o2",
+TEQUILA_IMPORT = sdk.GitImport(
+    repo_url="git@github.com:tequilahub/tequila.git",
+    git_ref="devel",
 )
 
 @sdk.task(
     source_import=THIS_IMPORT,
-    dependency_imports=[MADTEQUILA_IMPORT],
-    custom_image="yannnbingz/m1-madness-tequila:amd64",
-    n_outputs=2,
+    dependency_imports=[TEQUILA_IMPORT],
+    custom_image="jgonthier/madtequila:latest",
+    n_outputs=4,
     #resources=sdk.Resources(cpu='6000m', memory='6Gb')
 )
-def run_madness(geometry, n_pno, **kwargs):
-    import qemadtequila as madtq
-    SCHEMA_VERSION=madtq.SCHEMA_VERSION
-
-    molgeometry=None
-    geometry_str = ""
-    if "sites" in geometry:
-        molgeometry = geometry
-    elif ".json" in geometry:
-        with open(geometry) as f:
-            molgeometry = json.load(f)
-    else:
-        geometry_str = geometry
-
-    if molgeometry is not None:
-        for atom in molgeometry["sites"]:
-            geometry_str += "{} {} {} {}\n".format(
-                atom["species"], atom["x"], atom["y"], atom["z"]
-            )
-
-    print("*** MOLECULE GEOMETRY OBTAINED ***")
-    mol = madtq.run_madness(geometry=geometry_str, n_pno=n_pno, **kwargs)
+def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
+    import tequila as tq
+    
+    mol = tq.Molecule(
+                        name = name,
+                        geometry = geometry,
+                        frozen_core = frozen_core,
+                        n_pno = n_pno,
+                        maxrank = maxrank,
+                        **kwargs
+                        )
     print("*** MOL OBJECT DEFINED, INTEGRALS GENERATED ***")
 
-    results_dict = {}
-    results_dict['schema'] = SCHEMA_VERSION + "-madresults"
-    results_dict['kwargs'] = kwargs
-    results_dict['geometry'] = geometry
-    results_dict['n_pno'] = n_pno
-    json_string = madtq.mol_to_json(mol)
-    results_dict['mol']=json_string
+    with open (name + '_pnoinfo.txt', 'r') as f:
+        for line in f.readlines():
+            if "nuclear_repulsion" in line:
+                nuclear_repulsion = float(line.split("=")[1])
+            elif "pairinfo" in line:
+                pairinfo = line.split("=")[1].split(",")
+                #pairinfo = [tuple([int(i) for i in x.split(".")]) for x in pairinfo]
+            elif "occinfo" in line:
+                occinfo = line.split("=")[1].split(",")
+                occinfo = [float(x) for x in occinfo]
 
-    return mol, results_dict
+    h, g = mol.read_tensors(name=name)
+
+
+    results_dict = {}
+    results_dict['nuclear_repulsion'] = nuclear_repulsion
+    results_dict['pairinfo'] = pairinfo
+    results_dict['occinfo'] = occinfo
+    results_dict['n_pno'] = n_pno
+
+    return mol, results_dict, h, g
 
 
 @sdk.task(
     source_import=THIS_IMPORT,
-    dependency_imports=[MADTEQUILA_IMPORT],
-    custom_image="yannnbingz/m1-madness-tequila:amd64",
+    dependency_imports=[TEQUILA_IMPORT],
+    custom_image="jgonthier/madtequila:latest",
     n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
-    import qemadtequila as madtq
+    import tequila as tq
 
     print("***CALLING PYSCF***")
-    energy = madtq.compute_pyscf_energy(mol, method=method, **kwargs)
+    mol2 = tq.chemistry.QuantumChemistryPySCF.from_tequila(mol)
+    energy = mol2.compute_energy(method)
     results_dict = {}
     results_dict['SCHEMA'] = "schema"
     results_dict['name'] = mol.parameters.name
@@ -80,68 +81,25 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 
     return results_dict
 
-@sdk.task(
-        source_import=THIS_IMPORT,
-)
-def geometry_def(geo_name):
-
-    H2 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.7},
-                        ]
-        }
-    H4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": 0,"y": 0,"z": 0},
-                            {"species": "H","x": 0,"y": 0,"z": 0.75},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.0},
-                            {"species": "H","x": 0.75,"y": 0,"z": 0.75},
-                        ]
-        }
-    Li = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "Li","x": 0,"y": 0,"z": 0},
-                        ]
-        }
-    O2 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "O","x": 0,"y": 0,"z": 0.602900000000},
-                            {"species": "O","x": 0,"y": 0,"z": -0.602900000000},
-                        ]
-        }
-    H2O = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "H","x": -0.000000000000,"y":  0.754700000000,"z": -0.521394777902},
-                            {"species": "H","x":  0.000000000000,"y": -0.754700000000,"z": -0.521394777902},
-                            {"species": "O","x": -0.000000000000,"y":  0.000000000000,"z":  0.065705222098},
-                        ]
-        }
-    CH4 = {"schema": "molecular_geometry",
-                "sites": [
-                            {"species": "C","x": -0.000000000000,"y":  0.000000000000,"z": -0.000000000000},
-                            {"species": "H","x":  0.886146218183,"y":  0.000000000000,"z":  0.626600000000},
-                            {"species": "H","x": -0.886146218183,"y": -0.000000000000,"z":  0.626600000000},
-                            {"species": "H","x": -0.000000000000,"y":  0.886146218183,"z": -0.626600000000},
-                            {"species": "H","x":  0.000000000000,"y": -0.886146218183,"z": -0.626600000000},
-                        ]
-        }
-    geo_dict = {'h2': H2, 'h4': H4, 'li': Li, 'o2': O2, 'h2o': H2O, 'ch4': CH4}
-    return geo_dict[geo_name]
-
 @sdk.workflow
 def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h2'
-    n_pno = 4
+    mol_name = 'he'
+    n_pno = 2
     maxrank = 2
-    pyscf_method = 'ccsd(t)'
-    geometry = geometry_def(mol_name)
+    pyscf_method = 'hf'
+    frozen_core=False
+    geometry = 'he 0.0 0.0 0.0'
 
     # compute mra-pno 1 and 2 body integrals from madness
-    mol, madmolecule = run_madness(geometry, n_pno, frozen_core=True, name=mol_name, maxrank=maxrank)
+    mol, madmolecule, h, g = run_madness( name=mol_name, 
+                                    geometry=geometry, 
+                                    n_pno=n_pno, 
+                                    frozen_core=frozen_core, 
+                                    maxrank=maxrank
+                                    )
 
     # compute energy from pyscf
     result = compute_pyscf_energy(mol, method=pyscf_method)
