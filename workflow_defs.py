@@ -8,18 +8,17 @@ THIS_IMPORT = sdk.GitImport(
 
 TEQUILA_IMPORT = sdk.GitImport(
     repo_url="git@github.com:tequilahub/tequila.git",
-    git_ref="devel",#
+    git_ref="devel",
 )
 
-#CUSTOM_IMAGE = "jgonthier/madtequila:latest"
-# CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
+CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
-    custom_image="kottmanj/madness-tequila:v7",
+    custom_image=CUSTOM_IMAGE,
     n_outputs=4,
-    resources=sdk.Resources(cpu='6000m', memory='6Gb')
+    #resources=sdk.Resources(cpu='6000m', memory='6Gb')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -47,6 +46,7 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
 
     h, g = mol.read_tensors(name=name)
 
+
     results_dict = {}
     results_dict['nuclear_repulsion'] = nuclear_repulsion
     results_dict['pairinfo'] = pairinfo
@@ -59,7 +59,7 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
-    custom_image="kottmanj/madness-tequila:v7",
+    custom_image=CUSTOM_IMAGE,
     n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
