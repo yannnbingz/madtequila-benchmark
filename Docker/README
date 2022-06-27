@@ -1,0 +1,2 @@
+Build command:
+docker build --platform linux/amd64 -t madtequila_3.8_lite .
