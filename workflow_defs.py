@@ -94,17 +94,18 @@ def benchmarking_project():
     geometry = 'he 0.0 0.0 0.0'
 
     # compute mra-pno 1 and 2 body integrals from madness
-    mol, madmolecule, h, g = run_madness( name=mol_name, 
-                                    geometry=geometry, 
-                                    n_pno=n_pno, 
-                                    frozen_core=frozen_core, 
-                                    maxrank=maxrank
-                                    )
+    mol, madmolecule, h, g = run_madness(   
+                                            name=mol_name, 
+                                            geometry=geometry, 
+                                            n_pno=n_pno, 
+                                            frozen_core=frozen_core, 
+                                            maxrank=maxrank
+                                        )
 
     # compute energy from pyscf
     result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    return (madmolecule, result)
+    return (madmolecule, result, h, g)
 
 if __name__ == "__main__":
     benchmarking_project()

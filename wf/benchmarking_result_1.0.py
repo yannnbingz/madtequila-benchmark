@@ -33,7 +33,7 @@ n_pno = madmolecule["n_pno"]
 print("pyscf energyc from MRA-PNO: ", energy)
 
 # write output to files
-if not os.path.exists(PATH_TO_RESULT + mol_name):
+if not os.path.exists(PATH_TO_RESULT+mol_name):
     os.makedirs(PATH_TO_RESULT+mol_name) 
 with open(PATH_TO_RESULT + mol_name + "/energy-" + str(n_pno) + ".json", "w") as f:
     f.write(json.dumps(result, indent=2))
