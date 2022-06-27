@@ -12,12 +12,12 @@ TEQUILA_IMPORT = sdk.GitImport(
 )
 
 #CUSTOM_IMAGE = "jgonthier/madtequila:latest"
-CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
+# CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
 
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
-    custom_image=CUSTOM_IMAGE,
+    custom_image="kottmanj/madness-tequila:v7",
     n_outputs=4,
     resources=sdk.Resources(cpu='6000m', memory='6Gb')
 )
@@ -59,7 +59,7 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
 @sdk.task(
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
-    custom_image=CUSTOM_IMAGE,
+    custom_image="kottmanj/madness-tequila:v7",
     n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
