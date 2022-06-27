@@ -11,7 +11,7 @@ TEQUILA_IMPORT = sdk.GitImport(
     git_ref="devel",
 )
 
-CUSTOM_IMAGE = "jgonthier/madtequila:latest"
+CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
 
 @sdk.task(
     source_import=THIS_IMPORT,
