@@ -99,7 +99,8 @@ RUN python3 -m pip install --upgrade pip && python3 -m pip install --upgrade set
 
 # install tequila
 # PyPi version is fine here
-RUN python3 -m pip install git+https://github.com/aspuru-guzik-group/tequila.git@devel && \
+RUN python3 -m pip install pyscf && \
+    python3 -m pip install git+https://github.com/aspuru-guzik-group/tequila.git@devel && \
     python3 -m pip install periodictable 
 #   for MRA-PNO, qulacs is not needed
 #    python3 -m pip install qulacs
