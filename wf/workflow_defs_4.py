@@ -56,22 +56,30 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
 
 @sdk.task(
     source_import=THIS_IMPORT,
+    dependency_imports=[TEQUILA_IMPORT],
     custom_image="jgonthier/madtequila:latest",
     n_outputs=1
 )
-def compute_pyscf_energy():
-    import pyscf
+def compute_pyscf_energy(mol, method="fci", **kwargs):
+    from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF
 
-    mol = pyscf.M(
-                    atom = 'H 0 0 0; H 0 0 0.75; H 0.75 0 0; H 0.75 0 0.75 ',
-                    basis = 'sto3g'
-                    )
+    print("***CALLING PYSCF***")
+    mol2 = QuantumChemistryPySCF.from_tequila(mol)
+    energy = mol2.compute_energy(method)
+    results_dict = {}
+    results_dict['SCHEMA'] = "schema"
+    results_dict['name'] = mol.parameters.name
+    results_dict['method'] = method
+    results_dict['n_electrons'] = mol.n_electrons
+    results_dict['n_orbitals'] = mol.n_orbitals
+    results_dict['energy'] = energy
+    mra_pno = "({},{})".format(mol.n_electrons, ", ", 2*mol.n_orbitals)
+    print("*** MRA-PNO ***: \n")
+    print(mra_pno)
+    print("*** PYSCF ENERGY: ***\n")
+    print(energy)
 
-    hf = pyscf.scf.RHF(mol)
-    hf.kernel()
-    print("energy: ", hf.e_tot)
-
-    return hf.e_tot
+    return results_dict
 
 @sdk.workflow
 def benchmarking_project():
@@ -94,7 +102,7 @@ def benchmarking_project():
                                     )
 
     # compute energy from pyscf
-    result = compute_pyscf_energy()
+    result = compute_pyscf_energy(mol, method=pyscf_method)
 
     return (madmolecule, result)
 
