@@ -61,10 +61,10 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
     n_outputs=1
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
-    import tequila as tq
+    from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF
 
     print("***CALLING PYSCF***")
-    mol2 = tq.chemistry.QuantumChemistryPySCF.from_tequila(mol)
+    mol2 = QuantumChemistryPySCF.from_tequila(mol)
     energy = mol2.compute_energy(method)
     results_dict = {}
     results_dict['SCHEMA'] = "schema"
