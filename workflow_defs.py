@@ -43,7 +43,7 @@ def benchmarking_project():
     regression."""
     result = compute_pyscf_energy()
 
-    return (madmolecule, result)
+    return (result,)
 
 if __name__ == "__main__":
     benchmarking_project()
