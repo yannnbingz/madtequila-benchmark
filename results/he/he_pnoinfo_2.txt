@@ -1,0 +1,3 @@
+pairinfo=0,0.0,0.0
+nuclear_repulsion=0.0
+occinfo=-0.917962,0.00437667,0.001634
