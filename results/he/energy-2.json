@@ -1,0 +1,9 @@
+{
+  "SCHEMA": "schema",
+  "name": "he",
+  "method": "hf",
+  "n_electrons": 2,
+  "n_orbitals": 3,
+  "energy": -2.861522848128236,
+  "MRA-PNO": "(2,6)"
+}
