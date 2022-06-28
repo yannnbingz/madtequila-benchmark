@@ -85,10 +85,10 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 
 @sdk.workflow
 def benchmarking_project():
-    
+
     # parameter input: simple He test
     mol_name = 'he'
-    n_pno = 12
+    n_pno = 2
     maxrank = 2
     pyscf_method = 'hf'
     frozen_core=False
