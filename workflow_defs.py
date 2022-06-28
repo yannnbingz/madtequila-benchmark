@@ -18,7 +18,7 @@ CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
     n_outputs=4,
-    #resources=sdk.Resources(cpu='6000m')
+    resources=sdk.Resources(cpu='5000m',memory='5000Mi', disk='5Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -88,13 +88,13 @@ def benchmarking_project():
     """Workflow that generates random samples and fits them using a linear
     regression."""
     # parameter input
-    mol_name = 'h2o'
-    n_pno = 16
-    maxrank = 4
+    mol_name = 'he'
+    n_pno = 2
+    maxrank = 2
     pyscf_method = 'hf'
     frozen_core=False
-    #geometry = 'he 0.0 0.0 0.0'
-    geometry="o -0.000000000000  0.000000000000  0.065705222098 \n h -0.000000000000 0.754700000000 -0.521394777902 \n h 0.000000000000 -0.754700000000  -0.521394777902"
+    geometry = 'he 0.0 0.0 0.0'
+    #geometry="o -0.000000000000  0.000000000000  0.065705222098 \n h -0.000000000000 0.754700000000 -0.521394777902 \n h 0.000000000000 -0.754700000000  -0.521394777902"
     # ch4
     #geometry = 'C -0.000000000000 0.000000000000 -0.000000000000 \n H 0.886146218183 0.000000000000 0.626600000000 \n H -0.886146218183 -0.000000000000 0.626600000000 \n H -0.000000000000 0.886146218183 -0.626600000000 \n H 0.000000000000 -0.886146218183 -0.626600000000'
     # compute mra-pno 1 and 2 body integrals from madness
