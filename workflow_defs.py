@@ -85,9 +85,8 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 
 @sdk.workflow
 def benchmarking_project():
-    """Workflow that generates random samples and fits them using a linear
-    regression."""
-    # parameter input
+    
+    # parameter input: simple He test
     mol_name = 'he'
     n_pno = 12
     maxrank = 2
