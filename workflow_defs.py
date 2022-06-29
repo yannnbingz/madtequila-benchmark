@@ -60,7 +60,8 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    n_outputs=1
+    n_outputs=1,
+    resources=sdk.Resources(cpu='5000m',memory='5Gi', disk='15Gi')
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF

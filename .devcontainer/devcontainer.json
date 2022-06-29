@@ -10,5 +10,6 @@
   },
   "extensions": ["ms-python.python", "/opt/orquestra-studio.vsix"],
   "forwardPorts": [3000, 8265, 8000, 9000],
-  "overrideCommand": false
+  "overrideCommand": false,
+  //"runArgs": ["--shm-size=512m"]
 }
