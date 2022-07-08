@@ -17,8 +17,8 @@ CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    n_outputs=4,
-    resources=sdk.Resources(cpu='1000m',memory='1Gi', disk='10Gi')
+    #n_outputs=4,
+    resources=sdk.Resources(cpu='4000m',memory='4Gi', disk='10Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -60,8 +60,7 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    n_outputs=1,
-    resources=sdk.Resources(cpu='5000m',memory='5Gi', disk='15Gi')
+    #n_outputs=1,
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF
