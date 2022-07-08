@@ -87,12 +87,15 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
 def benchmarking_project():
 
     # parameter input: simple He test
-    mol_name = 'he'
-    n_pno = 2
-    maxrank = 2
+    #mol_name = 'he'
+    mol_name = 'h2o'
+    n_pno = 20
+    maxrank = 4
     pyscf_method = 'hf'
-    frozen_core=False
-    geometry = 'he 0.0 0.0 0.0'
+    frozen_core=True
+    #geometry = 'he 0.0 0.0 0.0'
+    geometry="o -0.000000000000  0.000000000000  0.065705222098 \n h -0.000000000000 0.754700000000 -0.521394777902 \n h 0.000000000000 -0.754700000000  -0.521394777902"
+
 
     # compute mra-pno 1 and 2 body integrals from madness
     mol, madmolecule, h, g = run_madness(   
