@@ -1,0 +1,181 @@
+completed: true
+created: "2022-07-06T18:19:21.660023229Z"
+currentRepresentation: null
+id: benchmarking-project-a295c-r000
+lastModified: "2022-07-08T15:52:28.502489338Z"
+owner: yanbing.zhou@zapatacomputing.com
+qeWorkflow:
+  apiVersion: io.orquestra.workflow/1.0.0
+  dataAggregation:
+    resources:
+      cpu: "1"
+      disk: 10Gi
+      gpu: ""
+      memory: 2Gi
+    run: true
+  id: ""
+  imports:
+  - name: git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark
+    parameters:
+      commit: main
+      repository: git@github.com:yannnbingz/madtequila-benchmark.git
+    type: git
+  - name: git-9935662e50_github_com_tequilahub_tequila
+    parameters:
+      commit: devel
+      repository: git@github.com:tequilahub/tequila.git
+    type: git
+  - name: __sdk_model
+    parameters:
+      commit: v0.19.0
+      repository: git@github.com:zapatacomputing/orquestra-workflow.git
+    type: git
+  - name: __sdk_main
+    parameters:
+      commit: v0.28.0
+      repository: git@github.com:zapatacomputing/orquestra-sdk.git
+    type: git
+  name: benchmarking-project-a295c-r000
+  steps:
+  - config:
+      persistent: false
+      resources:
+        cpu: 1000m
+        disk: 10Gi
+        gpu: ""
+        memory: 1Gi
+      runtime:
+        customImage: kottmanj/madness-tequila:v7
+        imports:
+        - __sdk_model
+        - __sdk_main
+        - git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark
+        - git-9935662e50_github_com_tequilahub_tequila
+        language: python3
+        parameters:
+          file: __sdk_main/src/python/orquestra/sdk/v2/dispatch.py
+          function: exec_task_fn
+      workerType: ""
+    inputs:
+    - __sdk_fn_ref_dict:
+        file_path: workflow_defs.py
+        function_name: run_madness
+        line_number: 16
+        module: workflow_defs
+        type: MODULE_FUNCTION_REF
+      type: sdk-metadata
+    - __sdk_output_node_dicts:
+      - artifact_index: 0
+        custom_name: null
+        id: artifact-2-run-madness
+        serialization_format: AUTO
+      - artifact_index: 1
+        custom_name: null
+        id: artifact-0-run-madness
+        serialization_format: AUTO
+      - artifact_index: 2
+        custom_name: null
+        id: artifact-3-run-madness
+        serialization_format: AUTO
+      - artifact_index: 3
+        custom_name: null
+        id: artifact-4-run-madness
+        serialization_format: AUTO
+      type: sdk-metadata
+    - __sdk_additional_sys_paths:
+      - step/git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark
+      type: sdk-metadata
+    - __sdk_positional_args_ids: []
+      type: sdk-metadata
+    - name:
+        serialization_format: JSON
+        value: '"he"'
+      type: workflow-result-dict
+    - geometry:
+        serialization_format: JSON
+        value: '"he 0.0 0.0 0.0"'
+      type: workflow-result-dict
+    - n_pno:
+        serialization_format: JSON
+        value: "2"
+      type: workflow-result-dict
+    - frozen_core:
+        serialization_format: JSON
+        value: "false"
+      type: workflow-result-dict
+    - maxrank:
+        serialization_format: JSON
+        value: "2"
+      type: workflow-result-dict
+    name: invocation-0-task-run-madness-e05e1a7b88
+    outputs:
+    - name: artifact-2-run-madness
+      type: workflow-result-dict
+    - name: artifact-0-run-madness
+      type: workflow-result-dict
+    - name: artifact-3-run-madness
+      type: workflow-result-dict
+    - name: artifact-4-run-madness
+      type: workflow-result-dict
+    passed: []
+  - config:
+      persistent: false
+      resources:
+        cpu: 5000m
+        disk: 15Gi
+        gpu: ""
+        memory: 5Gi
+      runtime:
+        customImage: kottmanj/madness-tequila:v7
+        imports:
+        - __sdk_model
+        - __sdk_main
+        - git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark
+        - git-9935662e50_github_com_tequilahub_tequila
+        language: python3
+        parameters:
+          file: __sdk_main/src/python/orquestra/sdk/v2/dispatch.py
+          function: exec_task_fn
+      workerType: ""
+    inputs:
+    - __sdk_fn_ref_dict:
+        file_path: workflow_defs.py
+        function_name: compute_pyscf_energy
+        line_number: 59
+        module: workflow_defs
+        type: MODULE_FUNCTION_REF
+      type: sdk-metadata
+    - __sdk_output_node_dicts:
+      - artifact_index: null
+        custom_name: null
+        id: artifact-1-compute-pyscf-energy
+        serialization_format: AUTO
+      type: sdk-metadata
+    - __sdk_additional_sys_paths:
+      - step/git-3d8fd6ad03_github_com_yannnbingz_madtequila_benchmark
+      type: sdk-metadata
+    - __sdk_positional_args_ids:
+      - artifact-2-run-madness
+      type: sdk-metadata
+    - artifact-2-run-madness: ((invocation-0-task-run-madness-e05e1a7b88.artifact-2-run-madness))
+      type: workflow-result-dict
+    - method:
+        serialization_format: JSON
+        value: '"hf"'
+      type: workflow-result-dict
+    name: invocation-1-task-compute-pyscf-energy-6d2a2bd36c
+    outputs:
+    - name: artifact-1-compute-pyscf-energy
+      type: workflow-result-dict
+    passed:
+    - invocation-0-task-run-madness-e05e1a7b88
+  types:
+  - sdk-metadata
+  - workflow-result-dict
+  workflowTTLAfterFailed: 259200
+  workflowTTLAfterFinished: 1800
+  workflowTTLAfterSuccess: 300
+retry: ""
+status: Succeeded
+target: argo
+version: io.orquestra.workflow/1.0.0
