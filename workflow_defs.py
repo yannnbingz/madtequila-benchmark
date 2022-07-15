@@ -18,7 +18,7 @@ CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
     #n_outputs=4,
-    resources=sdk.Resources(cpu='4000m',memory='30Gi', disk='10Gi')
+    resources=sdk.Resources(cpu='4000m',memory='20Gi', disk='10Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -89,8 +89,8 @@ def benchmarking_project():
     # parameter input: simple He test
     mol_name = 'h2o'
     # mol_name = 'h2o'
-    n_pno = 20
-    maxrank = 4
+    n_pno = 2
+    maxrank = 2
     pyscf_method = 'hf'
     frozen_core=False
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
