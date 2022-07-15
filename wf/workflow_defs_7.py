@@ -17,7 +17,8 @@ CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    resources=sdk.Resources(cpu='4000m',memory='20Gi', disk='10Gi')
+    #n_outputs=4,
+    resources=sdk.Resources(cpu='2000m',memory='2Gi', disk='10Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -55,15 +56,45 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
     return mol, results_dict, h, g
 
 
+# @sdk.task(
+#     source_import=THIS_IMPORT,
+#     dependency_imports=[TEQUILA_IMPORT],
+#     custom_image=CUSTOM_IMAGE,
+#     #n_outputs=1,
+# )
+# def compute_pyscf_energy(mol, method="fci", **kwargs):
+#     from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF
+
+#     print("***CALLING PYSCF***")
+#     mol2 = QuantumChemistryPySCF.from_tequila(mol)
+#     energy = mol2.compute_energy(method)
+#     results_dict = {}
+#     results_dict['SCHEMA'] = "schema"
+#     results_dict['name'] = mol.parameters.name
+#     results_dict['method'] = method
+#     results_dict['n_electrons'] = mol.n_electrons
+#     results_dict['n_orbitals'] = mol.n_orbitals
+#     results_dict['energy'] = energy
+#     mra_pno = "({},{})".format(mol.n_electrons, ", ", 2*mol.n_orbitals)
+#     print("*** MRA-PNO ***: \n")
+#     print(mra_pno)
+#     print("*** PYSCF ENERGY: ***\n")
+#     print(energy)
+
+#     return results_dict
+
 @sdk.workflow
 def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 20
-    maxrank = 4
+    # mol_name = 'h2o'
+    n_pno = 6
+    maxrank = 2
+    pyscf_method = 'hf'
     frozen_core=False
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
+    # geometry= 'h 0.000000000000 0.754700000000 -0.521394777902 \n h 0.000000000000 -0.754700000000  -0.521394777902 \n o 0.000000000000  0.000000000000  0.065705222098'
 
 
     # compute mra-pno 1 and 2 body integrals from madness
@@ -78,6 +109,7 @@ def benchmarking_project():
     # compute energy from pyscf
     # result = compute_pyscf_energy(mol, method=pyscf_method)
 
+    # return (madmolecule, result, h, g)
     return (madmolecule, h, g)
 
 
