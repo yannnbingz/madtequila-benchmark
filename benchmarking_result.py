@@ -22,17 +22,20 @@ runtime = QERuntime.from_runtime_configuration(
 # read outputs 
 workflow_results = runtime.get_workflow_run_outputs_non_blocking(WORKFLOW_ID)
 madmolecule = workflow_results[0]
-result = workflow_results[1]
-h = workflow_results[2]
-g = workflow_results[3]
+# result = workflow_results[1]
+h = workflow_results[1]
+g = workflow_results[2]
 
-# process results
-result["MRA-PNO"] = "({},{})".format(result["n_electrons"], result["n_orbitals"]*2)
-energy = result["energy"]
-mol_name = result["name"]
+# # process results
+# result["MRA-PNO"] = "({},{})".format(result["n_electrons"], result["n_orbitals"]*2)
+# energy = result["energy"]
+# mol_name = result["name"]
+# n_pno = madmolecule["n_pno"]
+mol_name = 'h2o'
 n_pno = madmolecule["n_pno"]
+print("n_pno: ", n_pno)
 
-print("pyscf energyc from MRA-PNO: ", energy)
+# print("pyscf energyc from MRA-PNO: ", energy)
 
 
 # write output to files
@@ -41,9 +44,9 @@ if not os.path.exists(PATH_TO_RESULT + mol_name):
     os.makedirs(PATH_TO_RESULT + mol_name) 
 
 # write energy
-with open ("{}{}/energy-{}.json".format(PATH_TO_RESULT, mol_name, str(n_pno)), "w") as f:
-    f.write(json.dumps(result, indent=2))
-print("*** ENERGY RESULTS WRITTEN TO: energy.json ***")
+# with open ("{}{}/energy-{}.json".format(PATH_TO_RESULT, mol_name, str(n_pno)), "w") as f:
+#     f.write(json.dumps(result, indent=2))
+# print("*** ENERGY RESULTS WRITTEN TO: energy.json ***")
 
 
 # save pno_info.txt for restart
