@@ -11,7 +11,7 @@ TEQUILA_IMPORT = sdk.GitImport(
     git_ref="devel",
 )
 
-CUSTOM_IMAGE = "kottmanj/madness-tequila:v7"
+CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
 @sdk.task(
     source_import=THIS_IMPORT,
@@ -60,7 +60,7 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 16
+    n_pno = 10
     maxrank = 4
     frozen_core=False
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
