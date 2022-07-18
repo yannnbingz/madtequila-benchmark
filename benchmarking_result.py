@@ -56,8 +56,8 @@ with open ("{}{}/{}_pnoinfo_{}.txt".format(PATH_TO_RESULT, mol_name, mol_name, s
     f.write("occinfo=" + ','.join(str(x) for x in madmolecule['occinfo']))
     
 # save integrals for restart
-numpy.save("{}{}/{}_gtensor.npy".format(PATH_TO_RESULT, mol_name, mol_name), arr=g)
-numpy.save("{}{}/{}_htensor.npy".format(PATH_TO_RESULT, mol_name, mol_name), arr=h)
+numpy.save("{}{}/{}_gtensor_{}.npy".format(PATH_TO_RESULT, mol_name, mol_name, str(n_pno)), arr=g)
+numpy.save("{}{}/{}_htensor_{}.npy".format(PATH_TO_RESULT, mol_name, mol_name, str(n_pno)), arr=h)
 
 
 
