@@ -17,7 +17,7 @@ CUSTOM_IMAGE = "jgonthier/madtequila:latest"
     source_import=THIS_IMPORT,
     dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    resources=sdk.Resources(cpu='3000m',memory='10Gi', disk='10Gi')
+    resources=sdk.Resources(cpu='4000m',memory='20Gi', disk='10Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
