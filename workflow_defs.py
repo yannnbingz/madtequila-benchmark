@@ -21,7 +21,7 @@ CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
-    
+
     mol = tq.Molecule(
                         name = name,
                         geometry = geometry,
@@ -60,18 +60,18 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 8
-    maxrank = 2
+    n_pno = 20
+    maxrank = 4
     frozen_core=False
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
 
 
     # compute mra-pno 1 and 2 body integrals from madness
-    mol, madmolecule, h, g = run_madness(   
-                                            name=mol_name, 
-                                            geometry=geometry, 
-                                            n_pno=n_pno, 
-                                            frozen_core=frozen_core, 
+    mol, madmolecule, h, g = run_madness(
+                                            name=mol_name,
+                                            geometry=geometry,
+                                            n_pno=n_pno,
+                                            frozen_core=frozen_core,
                                             maxrank=maxrank
                                         )
 
