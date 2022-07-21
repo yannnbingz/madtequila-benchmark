@@ -60,7 +60,7 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 24
+    n_pno = 22
     maxrank = 4
     frozen_core=False
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
