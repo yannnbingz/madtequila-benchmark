@@ -6,10 +6,10 @@ THIS_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-TEQUILA_IMPORT = sdk.GitImport(
-    repo_url="git@github.com:tequilahub/tequila.git",
-    git_ref="devel",
-)
+# TEQUILA_IMPORT = sdk.GitImport(
+#     repo_url="git@github.com:tequilahub/tequila.git",
+#     git_ref="devel",
+# )
 
 CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
@@ -60,8 +60,8 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 20
-    maxrank = 4
+    n_pno = 8
+    maxrank = 2
     frozen_core=True
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
 
