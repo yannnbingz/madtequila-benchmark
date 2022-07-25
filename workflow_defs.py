@@ -15,9 +15,9 @@ CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
 @sdk.task(
     source_import=THIS_IMPORT,
-    dependency_imports=[TEQUILA_IMPORT],
+    # dependency_imports=[TEQUILA_IMPORT],
     custom_image=CUSTOM_IMAGE,
-    resources=sdk.Resources(cpu='8000m',memory='65Gi', disk='20Gi')
+    resources=sdk.Resources(cpu='4000m',memory='30Gi', disk='20Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
@@ -60,9 +60,9 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 24
+    n_pno = 20
     maxrank = 4
-    frozen_core=False
+    frozen_core=True
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
 
 
@@ -72,7 +72,7 @@ def benchmarking_project():
                                             geometry=geometry,
                                             n_pno=n_pno,
                                             frozen_core=frozen_core,
-                                            # maxrank=maxrank
+                                            maxrank=maxrank
                                         )
 
     # compute energy from pyscf
