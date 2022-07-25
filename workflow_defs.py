@@ -6,7 +6,7 @@ THIS_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-# TEQUILA_IMPORT = sdk.GitImport(
+TEQUILA_IMPORT = sdk.GitImport(
     repo_url="git@github.com:tequilahub/tequila.git",
     git_ref="devel",
 )
