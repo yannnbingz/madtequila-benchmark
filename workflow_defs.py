@@ -7,16 +7,16 @@ THIS_IMPORT = sdk.GitImport(
 )
 
 # TEQUILA_IMPORT = sdk.GitImport(
-#     repo_url="git@github.com:tequilahub/tequila.git",
-#     git_ref="devel",
-# )
+    repo_url="git@github.com:tequilahub/tequila.git",
+    git_ref="devel",
+)
 
-CUSTOM_IMAGE = "jgonthier/madtequila:latest"
+# CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
 @sdk.task(
     source_import=THIS_IMPORT,
-    # dependency_imports=[TEQUILA_IMPORT],
-    custom_image=CUSTOM_IMAGE,
+    dependency_imports=[TEQUILA_IMPORT],
+    # custom_image=CUSTOM_IMAGE,
     resources=sdk.Resources(cpu='4000m',memory='30Gi', disk='20Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
@@ -60,7 +60,7 @@ def benchmarking_project():
 
     # parameter input: simple He test
     mol_name = 'h2o'
-    n_pno = 8
+    n_pno = 18
     maxrank = 2
     frozen_core=True
     geometry = 'h 0.0 0.7547 -0.521394777902 \n h 0.0 -0.7547 -0.521394777902 \n o 0.0 0.0 0.065705222098'
