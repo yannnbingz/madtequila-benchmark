@@ -6,17 +6,17 @@ THIS_IMPORT = sdk.GitImport(
     git_ref="main",
 )
 
-TEQUILA_IMPORT = sdk.GitImport(
-    repo_url="git@github.com:tequilahub/tequila.git",
-    git_ref="devel",
-)
+# TEQUILA_IMPORT = sdk.GitImport(
+#     repo_url="git@github.com:tequilahub/tequila.git",
+#     git_ref="devel",
+# )
 
-# CUSTOM_IMAGE = "jgonthier/madtequila:latest"
+CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 
 @sdk.task(
     source_import=THIS_IMPORT,
-    dependency_imports=[TEQUILA_IMPORT],
-    # custom_image=CUSTOM_IMAGE,
+    # dependency_imports=[TEQUILA_IMPORT],
+    custom_image=CUSTOM_IMAGE,
     resources=sdk.Resources(cpu='4000m',memory='30Gi', disk='20Gi')
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
