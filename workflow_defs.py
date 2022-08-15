@@ -47,4 +47,4 @@ def get_ccsdt_from_pyscf():
 
 
 if __name__ == "__main__":
-    benchmarking_project()
+    get_ccsdt_from_pyscf()
