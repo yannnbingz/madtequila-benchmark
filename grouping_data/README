@@ -1,0 +1,39 @@
+Scripts adapted from bp-combustion-project-p2at2/MPEA_paper/workflow/
+
+Note: a few CISD RDMs are missing, the list is in the gather.out file
+For some of them, they were just computed in a different workflow (case of the 
+Hamiltonians read from generalized orbital frames workflows)
+For most CISD RDMs for Natural Orbitals though, they are missing because
+they had to be computed in a different step.
+
+I will attempt to find those at a later time...
+
+- JFG
+
+All files are stored on AWS S3 in the following bucket:
+s3://zapata-zmachine/projects/bp-combustion-project/phase-2/mpea-runtime/data/publication-data/
+
+Files are named with <molecule name>-<number of active spatial orbitals>-<orbital type>.tgz
+in the top directory. The number of qubits is twice the number of active spatial orbitals. 
+Orbital type can be either canonical (obtained from HF calculation) or NOs (obtained from MP2
+amplitudes, diagonalizing the MP2 density matrix). 
+
+Canonical orbitals are truncated by energy and NOs by occupation numbers. The top level directory 
+contains interaction operators computed from Psi4.
+
+The qubitops subdirectory contains the same operators transformed in the qubit basis by a 
+Jordan-Wigner transformation.
+
+The cisd-rdms subdirectory contains the CISD 1-RDM and 2-RDM for each molecule, active space and 
+orbital type (except for the missing ones).
+
+
+#### AWS login ####
+To login to AWS, download and install the AWS command line tool.
+Then do 
+aws sso login --profile zapata-zmachine
+
+After that you cna use aws commands to download or upload files to S3:
+aws s3 cp s3://zapata-zmachine/key/to/file .
+would copy "file" locally for example.
+
