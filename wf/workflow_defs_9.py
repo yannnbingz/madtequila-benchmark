@@ -1,5 +1,4 @@
-import orquestra.sdk.v2 as sdk
-
+import orquestra.sdk.v2.dsl as sdk
 
 
 THIS_IMPORT = sdk.GitImport(
@@ -13,12 +12,11 @@ CUSTOM_IMAGE = "jgonthier/madtequila:latest"
 @sdk.task(
     source_import=THIS_IMPORT,
     custom_image=CUSTOM_IMAGE,
-    #resources=sdk.Resources(cpu="34000m", memory="60Gi", disk="20Gi"),
-    #resources=sdk.Resources(cpu='6000m', memory='6Gb'),
+    resources=sdk.Resources(cpu="34000m", memory="60Gi", disk="20Gi"),
 )
 def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs):
     import tequila as tq
-
+    
     results_dict = {}
     try:
         mol = tq.Molecule(
@@ -71,14 +69,13 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
 @sdk.task(
     source_import=THIS_IMPORT,
     custom_image=CUSTOM_IMAGE,
-    #resources=sdk.Resources(cpu="8000m", memory="60Gi", disk="20Gi"),
-    #resources=sdk.Resources(cpu='6000m', memory='6Gb'),
+    resources=sdk.Resources(cpu="8000m", memory="60Gi", disk="20Gi"),
     #n_outputs=1,
 )
 def compute_pyscf_energy(mol, method="fci", **kwargs):
     from tequila.quantumchemistry.pyscf_interface import QuantumChemistryPySCF
 
-    try:
+    try: 
         print("***CALLING PYSCF***")
         mol2 = QuantumChemistryPySCF.from_tequila(mol)
         energy = mol2.compute_energy(method)
@@ -95,18 +92,18 @@ def compute_pyscf_energy(mol, method="fci", **kwargs):
         print("*** PYSCF ENERGY: ***\n")
         print(energy)
 
-    except:
+    except: 
         results_dict = None
+e
     return results_dict
 
-#@sdk.workflow(data_aggregation=sdk.DataAggregation(resources=sdk.Resources(memory="30Gi", disk="20Gi")))
-@sdk.workflow()
+@sdk.workflow(data_aggregation=sdk.DataAggregation(resources=sdk.Resources(memory="30Gi", disk="20Gi")))
 def benchmarking_project():
 
     mol_name = "ch4"
 
-    n_pno = 4
-    maxrank = 2
+    n_pno = 110
+    maxrank = 36
     frozen_core = False
     geometry = "C 0.0 0.0 0.0 \n H 0.886146218183 0.0 0.6266 \n H -0.886146218183 0.0 0.6266 \n H 0.0 0.886146218183 -0.6266 \n H 0.0 -0.886146218183 -0.6266"
 
