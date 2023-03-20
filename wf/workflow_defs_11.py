@@ -21,47 +21,53 @@ def run_madness(name, geometry, n_pno, frozen_core=True, maxrank=None, **kwargs)
     import tequila as tq
 
     results_dict = {}
-    mol = tq.Molecule(
-        name=name,
-        geometry=geometry,
-        frozen_core=frozen_core,
-        n_pno=n_pno,
-        maxrank=maxrank,
-        **kwargs
-    )
-    print("*** MOL OBJECT DEFINED, INTEGRALS GENERATED ***")
+    try:
+        mol = tq.Molecule(
+            name=name,
+            geometry=geometry,
+            frozen_core=frozen_core,
+            n_pno=n_pno,
+            maxrank=maxrank,
+            **kwargs
+        )
+        print("*** MOL OBJECT DEFINED, INTEGRALS GENERATED ***")
 
-#    with open(name + "_pnoinfo.txt", "r") as f:
-#        for line in f.readlines():
-#            if "nuclear_repulsion" in line:
-#                nuclear_repulsion = float(line.split("=")[1])
-#            elif "pairinfo" in line:
-#                pairinfo = line.split("=")[1].split(",")
-#                # pairinfo = [tuple([int(i) for i in x.split(".")]) for x in pairinfo]
-#            elif "occinfo" in line:
-#                occinfo = line.split("=")[1].split(",")
-#                occinfo = [float(x) for x in occinfo]
-#    h, g = mol.read_tensors(name=name)
-#    results_dict["nuclear_repulsion"] = nuclear_repulsion
-#    results_dict["pairinfo"] = pairinfo
-#    results_dict["occinfo"] = occinfo
-#
-#    inputfile = ""
-#    with open("input", "r") as f_input:
-#        for line in f_input.readlines():
-#            inputfile += line
-#    outfile = ""
-#    with open(name + "_pno_integrals.out", "r") as f_output:
-#        for line in f_output.readlines():
-#            outfile += line
-#
-#    results_dict["name"] = name
-#    results_dict["n_pno"] = n_pno
-#    results_dict["maxrank"] = maxrank
-#    results_dict["inputfile"] = inputfile
-#    results_dict["outfile"] = outfile
-#
-    return mol
+        with open(name + "_pnoinfo.txt", "r") as f:
+            for line in f.readlines():
+                if "nuclear_repulsion" in line:
+                    nuclear_repulsion = float(line.split("=")[1])
+                elif "pairinfo" in line:
+                    pairinfo = line.split("=")[1].split(",")
+                    # pairinfo = [tuple([int(i) for i in x.split(".")]) for x in pairinfo]
+                elif "occinfo" in line:
+                    occinfo = line.split("=")[1].split(",")
+                    occinfo = [float(x) for x in occinfo]
+        h, g = mol.read_tensors(name=name)
+        results_dict["nuclear_repulsion"] = nuclear_repulsion
+        results_dict["pairinfo"] = pairinfo
+        results_dict["occinfo"] = occinfo
+
+    except tq.quantumchemistry.madness_interface.TequilaMadnessException:
+        mol = None
+        h = None
+        g = None
+
+    inputfile = ""
+    with open("input", "r") as f_input:
+        for line in f_input.readlines():
+            inputfile += line
+    outfile = ""
+    with open(name + "_pno_integrals.out", "r") as f_output:
+        for line in f_output.readlines():
+            outfile += line
+
+    results_dict["name"] = name
+    results_dict["n_pno"] = n_pno
+    results_dict["maxrank"] = maxrank
+    results_dict["inputfile"] = inputfile
+    results_dict["outfile"] = outfile
+
+    return mol, results_dict, h, g
 
 @sdk.task(
     source_import=THIS_IMPORT,
@@ -117,10 +123,9 @@ def benchmarking_project():
     )
 
     # compute energy from pyscf
-    #result = compute_pyscf_energy(mol, method=pyscf_method)
+    result = compute_pyscf_energy(mol, method=pyscf_method)
 
-    #return (madmolecule, result, h, g)
-    return mol
+    return (madmolecule, result, h, g)
 
 if __name__ == "__main__":
     benchmarking_project()
